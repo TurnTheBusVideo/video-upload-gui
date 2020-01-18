@@ -1,5 +1,5 @@
 window.onload = event => {
-    $('#uploadMask').addAttr('hidden')
+    $('#uploadMask').attr('hidden', true)
     $('#ttbVideoUploadForm').submit(event => {
         $('#uploadMask').removeAttr('hidden')
     })
