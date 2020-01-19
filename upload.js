@@ -1,26 +1,23 @@
-
-
 window.onload = event => {
     $('#uploadMask').attr('hidden', true)
-
     $.ajax({
-        method: "GET",
-        // async:true,
+        type: "GET",
         url: "https://6bvu1dfzvl.execute-api.ap-south-1.amazonaws.com/test/getsignedurl",
-        // crossDomain:true,
-        dataType: 'jsonp',
+        crossdomain: true,
+        contentType: 'application/json',
+        dataType: 'json',
         success: function (data, textStatus, jqXHR) {
-            console.log('data', data);
-            // let signedURL = 'facebook.com'
-            // $.ajax({
-            //     method: "PUT",
-            //     contentType: "application/octet-stream",
-            //     url: signedURL,
-            //     data: formData,
-            //     success: function (data, textStatus, jqXHR) {
-            //         alert('everything was OK');
-            //     }
-            // });
+            let signedURL = JSON.parse(data.body).signedURL
+            let formData = $('#file').val()
+            $.ajax({
+                type: "PUT",
+                url: signedURL,
+                contentType: "application/octet-stream",
+                data: formData,
+                success: function (data, textStatus, jqXHR) {
+                    alert('everything was OK')
+                }
+            });
         }
     });
 
