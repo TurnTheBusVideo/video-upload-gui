@@ -5,10 +5,10 @@ window.onload = event => {
 
     $.ajax({
         method: "GET",
-        async:true,
+        // async:true,
         url: "https://6bvu1dfzvl.execute-api.ap-south-1.amazonaws.com/test/getsignedurl",
-        crossDomain:true,
-        dataType: 'application/json',
+        // crossDomain:true,
+        dataType: 'jsonp',
         success: function (data, textStatus, jqXHR) {
             console.log('data', data);
             // let signedURL = 'facebook.com'
