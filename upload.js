@@ -1,31 +1,59 @@
+let signedURL = false
+const sendFile = function (event) {
+    console.log('event', event)
+    if (signedURL) {
+        $.ajax({
+            type: "PUT",
+            url: signedURL,
+            contentType: "application/octet-stream",
+            data: event.target.result,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data, textStatus, jqXHR) {
+                console.log('data', data)
+                $('#uploadMask').attr('hidden', true)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                setError('Could not upload file, please check console/network logs.')
+            }
+        })
+    }
+}
+const reader = new FileReader()
+reader.onload = sendFile
 window.onload = event => {
     $('#uploadMask').attr('hidden', true)
 
-    $('#submitUploadForm').click(event => {
-        $('#uploadMask').removeAttr('hidden')
-        $.ajax({
-            type: "GET",
-            url: "https://6bvu1dfzvl.execute-api.ap-south-1.amazonaws.com/test/getsignedurl",
-            crossdomain: true,
-            contentType: 'application/json',
-            dataType: 'json',
-            success: function (data, textStatus, jqXHR) {
-                let signedURL = JSON.parse(data.body).signedURL
-                alert(signedURL)
-                let selectedFile = $('#file')[0].files[0]
-                $.ajax({
-                    type: "PUT",
-                    url: signedURL,
-                    contentType: "application/octet-stream",
-                    data: {
-                        file: undefined
-                    },
-                    success: function (data, textStatus, jqXHR) {
-                        alert('everything was OK')
-                    }
-                });
-            }
-        });
-        event.preventDefault();
-    })
+    try {
+        $('#submitUploadForm').click(event => {
+            $('#uploadMask').removeAttr('hidden')
+            $.ajax({
+                type: "GET",
+                url: "https://6bvu1dfzvl.execute-api.ap-south-1.amazonaws.com/test/getsignedurl",
+                crossdomain: true,
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (data, textStatus, jqXHR) {
+                    signedURL = JSON.parse(data.body).signedURL
+                    console.log('Signed URL', signedURL)
+                    let selectedFile = $('#file')[0].files[0]
+                    reader.readAsBinaryString(selectedFile);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    setError('Could not get signed URL, please check console/network logs.')
+                }
+            });
+            event.preventDefault();
+        })
+    } catch (e) {
+        setError('Some error occurced! Please try again. 2');
+    }
 }
+function setError(msg) {
+    $('#uploadError').html(msg);
+    $('#uploadError').removeAttr('hidden');
+    $('#uploadMask').attr('hidden', true);
+}
+
