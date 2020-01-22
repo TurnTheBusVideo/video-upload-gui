@@ -36,7 +36,7 @@ window.onload = event => {
             let selectedFile = $('#file')[0].files[0]
             $.ajax({
                 type: "GET",
-                url: "https://6bvu1dfzvl.execute-api.ap-south-1.amazonaws.com/test/getsignedurl",
+                url: "https://1bb73f90n5.execute-api.ap-south-1.amazonaws.com/test/getsignedurl",
                 crossdomain: true,
                 contentType: 'application/json',
                 dataType: 'json',
