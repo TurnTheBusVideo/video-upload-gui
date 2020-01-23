@@ -12,14 +12,20 @@ const sendFile = function (event) {
             contentType: false,
             processData: false,
             success: function (data, textStatus, jqXHR) {
-                console.log('data', data)
-                $('#uploadMask').attr('hidden', true)
-                $('#uploadSucc').removeAttr('hidden')
+                try {
+                    console.log('data', data)
+                    $('#uploadMask').attr('hidden', true)
+                    $('#uploadSucc').removeAttr('hidden')
+                } catch (e) {
+                    setError('Server response error, please check console/network logs.', e)
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 setError('Could not upload file, please check console/network logs.')
             }
         })
+    } else {
+        setError('Server error.')
     }
 }
 const reader = new FileReader()
@@ -42,12 +48,16 @@ window.onload = event => {
                 dataType: 'json',
                 data: {
                     bucket: 'test-turnthebus-upload',
-                    key: 'voila.png'
+                    key: selectedFile.name
                 },
                 success: function (data, textStatus, jqXHR) {
-                    signedURL = JSON.parse(data.body).signedURL
-                    console.log('Signed URL', signedURL)
-                    reader.readAsBinaryString(selectedFile);
+                    try {
+                        signedURL = data.signedURL
+                        console.log('Signed URL', signedURL)
+                        reader.readAsBinaryString(selectedFile)
+                    } catch (e) {
+                        setError('Server response error, please check console/network logs.', e)
+                    }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     setError('Could not get signed URL, please check console/network logs.')
@@ -56,12 +66,13 @@ window.onload = event => {
             event.preventDefault();
         })
     } catch (e) {
-        setError('Some error occurced! Please try again. 2');
+        setError('Some error occurced! Please try again.', e);
     }
 }
-function setError(msg) {
+function setError(msg, e) {
     $('#uploadError').html(msg);
     $('#uploadError').removeAttr('hidden');
     $('#uploadMask').attr('hidden', true);
+    console.error(e)
 }
 
