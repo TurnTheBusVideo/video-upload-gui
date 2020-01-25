@@ -1,44 +1,39 @@
 let signedURL = false
 const sendFile = function (event) {
-    console.log('event', event)
     if (signedURL) {
-        $.ajax({
-            type: "PUT",
-            url: signedURL,
-            contentType: "application/octet-stream",
-            data: event.target.result,
-            async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (data, textStatus, jqXHR) {
-                try {
-                    console.log('data', data)
-                    $('#uploadMask').attr('hidden', true)
-                    $('#uploadSucc').removeAttr('hidden')
-                } catch (e) {
-                    setError('Server response error, please check console/network logs.', e)
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                setError('Could not upload file, please check console/network logs.')
+        const xhr = new XMLHttpRequest();
+        this.xhr = xhr;
+        this.xhr.upload.addEventListener("progress", function (e) {
+            if (e.lengthComputable) {
+                const percentage = Math.round((e.loaded * 100) / e.total);
+                setUploadProgress(percentage);
             }
-        })
+        }, false);
+        xhr.open('PUT', signedURL);
+        xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                hideMask();
+                showSuccessMsg();
+            }
+            else if (xhr.readyState !== XMLHttpRequest.HEADERS_RECEIVED) {
+                setError('Server response error, please check console/network logs.')
+            }
+        };
+        xhr.send(event.target.result);
     } else {
-        setError('Server error.')
+        setError('Server Error!');
     }
 }
 const reader = new FileReader()
 reader.onload = sendFile
 window.onload = event => {
-    $('#uploadMask').attr('hidden', true)
-    $('#uploadError').attr('hidden', true)
-    $('#uploadSucc').attr('hidden', true)
+    resetState();
     try {
         $('#submitUploadForm').click(event => {
-            $('#uploadMask').removeAttr('hidden')
-            $('#uploadError').attr('hidden', true)
-            $('#uploadSucc').attr('hidden', true)
+            showMask();
+            hideUploadError();
+            hideSuccessMsg();
             let selectedFile = $('#file')[0].files[0]
             $.ajax({
                 type: "GET",
@@ -54,7 +49,7 @@ window.onload = event => {
                     try {
                         signedURL = data.signedURL
                         console.log('Signed URL', signedURL)
-                        reader.readAsBinaryString(selectedFile)
+                        reader.readAsArrayBuffer(selectedFile)
                     } catch (e) {
                         setError('Server response error, please check console/network logs.', e)
                     }
@@ -69,10 +64,39 @@ window.onload = event => {
         setError('Some error occurced! Please try again.', e);
     }
 }
+function resetState() {
+    hideMask();
+    hideUploadError();
+    hideSuccessMsg();
+}
+
+function hideSuccessMsg() {
+    $('#uploadSucc').attr('hidden', true);
+}
+
+function hideUploadError() {
+    $('#uploadError').attr('hidden', true);
+}
+
+function showMask() {
+    $('#uploadMask').removeAttr('hidden');
+}
+
+function showSuccessMsg() {
+    $('#uploadSucc').removeAttr('hidden');
+}
+
 function setError(msg, e) {
     $('#uploadError').html(msg);
     $('#uploadError').removeAttr('hidden');
-    $('#uploadMask').attr('hidden', true);
-    console.error(e)
+    hideMask();
+    e && console.error(e)
 }
-
+function hideMask() {
+    $('#uploadMask').attr('hidden', true)
+}
+function setUploadProgress(progressValue) {
+    $('#uploadProgressBar').attr('aria-valuenow', progressValue)
+    $('#uploadProgressBar').html(progressValue + '%')
+    $('#uploadProgressBar').css('width', progressValue)
+}
