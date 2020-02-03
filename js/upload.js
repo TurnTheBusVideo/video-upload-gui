@@ -6,11 +6,11 @@ WildRydes.authToken.then(function setAuthToken(token) {
     if (token) {
         authToken = token;
     } else {
-        window.location.href = '/index.html';
+        window.location.href = 'index.html';
     }
 }).catch(function handleTokenError(error) {
     alert(error);
-    window.location.href = '/index.html';
+    window.location.href = 'index.html';
 });
 
 let signedURL = false
