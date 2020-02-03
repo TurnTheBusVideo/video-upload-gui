@@ -1,21 +1,21 @@
 var WildRydes = window.WildRydes || {};
 WildRydes.map = WildRydes.map || {};
 
-var authToken;
-    WildRydes.authToken.then(function setAuthToken(token) {
-        if (token) {
-            authToken = token;
-        } else {
-            window.location.href = '/index.html';
-        }
-    }).catch(function handleTokenError(error) {
-        alert(error);
+var authToken = false;
+WildRydes.authToken.then(function setAuthToken(token) {
+    if (token) {
+        authToken = token;
+    } else {
         window.location.href = '/index.html';
-    });
+    }
+}).catch(function handleTokenError(error) {
+    alert(error);
+    window.location.href = '/index.html';
+});
 
 let signedURL = false
 const sendFile = function (event) {
-    if (signedURL) {
+    if (signedURL && authToken) {
         const xhr = new XMLHttpRequest();
         this.xhr = xhr;
         this.xhr.upload.addEventListener("progress", function (e) {
@@ -32,19 +32,20 @@ const sendFile = function (event) {
                 showSuccessMsg();
             }
             else if (xhr.readyState !== XMLHttpRequest.HEADERS_RECEIVED) {
-                setError('Server response error, please check console/network logs.')
+                setError('PUT: Server response error, please check console/network logs.')
             }
         };
         xhr.send(event.target.result);
     } else {
-        setError('Server Error!');
+        !signedURL && setError('Server Error!');
+        !authToken && setError('Authorization Failed!');
     }
 }
 const reader = new FileReader()
 reader.onload = sendFile
 window.onload = event => {
     resetState();
-    $('#signOut').click(function() {
+    $('#signOut').click(function () {
         WildRydes.signOut();
         alert("You have been signed out.");
         window.location = "index.html";
@@ -57,10 +58,13 @@ window.onload = event => {
             let selectedFile = $('#file')[0].files[0]
             $.ajax({
                 type: "GET",
-                url: "https://1bb73f90n5.execute-api.ap-south-1.amazonaws.com/test/getsignedurl",
+                url: _config.api.invokeUrl + "/getsignedurl",
                 crossdomain: true,
                 contentType: 'application/json',
                 dataType: 'json',
+                headers: {
+                    Authorization: authToken
+                },
                 data: {
                     bucket: 'test-turnthebus-upload',
                     key: selectedFile.name
@@ -71,7 +75,7 @@ window.onload = event => {
                         console.log('Signed URL', signedURL)
                         reader.readAsArrayBuffer(selectedFile)
                     } catch (e) {
-                        setError('Server response error, please check console/network logs.', e)
+                        setError('GET: Server response error, please check console/network logs.', e)
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
