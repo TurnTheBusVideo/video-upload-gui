@@ -1,3 +1,18 @@
+var WildRydes = window.WildRydes || {};
+WildRydes.map = WildRydes.map || {};
+
+var authToken;
+    WildRydes.authToken.then(function setAuthToken(token) {
+        if (token) {
+            authToken = token;
+        } else {
+            window.location.href = '/index.html';
+        }
+    }).catch(function handleTokenError(error) {
+        alert(error);
+        window.location.href = '/index.html';
+    });
+
 let signedURL = false
 const sendFile = function (event) {
     if (signedURL) {
