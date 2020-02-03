@@ -113,6 +113,7 @@ var WildRydes = window.WildRydes || {};
     });
 
     function handleSignin(event) {
+        $('#signinMask').attr('hidden', false);
         var email = $('#emailInputSignin').val();
         var password = $('#passwordInputSignin').val();
         event.preventDefault();
@@ -122,7 +123,9 @@ var WildRydes = window.WildRydes || {};
                 window.location.href = 'upload.html';
             },
             function signinError(err) {
-                alert(err);
+                $('#signinMask').attr('hidden', true);
+                $('#signinError').attr('hidden', false);
+                console.error(err);
             }
         );
     }
