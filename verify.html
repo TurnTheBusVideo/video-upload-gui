@@ -36,16 +36,17 @@
 </head>
 
 <body>
-    <div hidden id="signinMask">
+    <div hidden id="verifyMask">
         <div class="mask">
             <div class="lds-ripple">
                 <div></div>
                 <div></div>
             </div>
             <br>
-            <h4 class="mask-label">Signing In...</h4>
+            <h4 class="mask-label">Verifying...</h4>
         </div>
     </div>
+
     <div id="noCognitoMessage" class="configMessage" style="display: none;">
         <div class="backdrop"></div>
         <div class="panel panel-default">
@@ -62,33 +63,34 @@
     <div class="row">
         <div class="col col-md"></div>
         <div class="col-12 col-sm-6 col-md-4">
-            <form id="signinForm">
+            <form id="verifyForm">
                 <img src="https://turnthebus.org/images/turn-the-bus-logo.png" />
                 <br>
                 <br>
-                <h3>Video Upload Sign-in</h3>
+                <h3>Verify Email</h3>
                 <br>
                 <div class="form-group">
-                    <label for="emailInputSignin">Email</label>
-                    <input type="email" class="form-control" id="emailInputSignin" required>
+                    <label for="emailInputVerify">Email</label>
+                    <input type="email" class="form-control" id="emailInputVerify" required>
                 </div>
                 <div class="form-group">
-                    <label for="passwordInputSignin">Password</label>
-                    <input type="password" id="passwordInputSignin" class="form-control" pattern=".*" required>
+                    <label for="codeInputVerify">Verification Code</label>
+                    <input type="password" id="codeInputVerify" class="form-control" pattern=".*" required>
                 </div>
-                <input class="btn btn-primary" type="submit" value="Sign in">
+                <input class="btn btn-success" type="submit" value="Verify">
                 <br>
                 <br>
                 <a href="register.html">register</a>
                 <br>
-                <a href="verify.html">verify email</a>
+                <a href="index.html">sign in</a>
             </form>
-            <div hidden id="signinError" class="alert alert-danger" role="alert">
+            <div hidden id="verificationError" class="alert alert-danger" role="alert">
                 Some error occurced! Please try again.
             </div>
         </div>
         <div class="col col-md"></div>
     </div>
+
     <script src="js/vendor/aws-cognito-sdk.min.js"></script>
     <script src="js/vendor/amazon-cognito-identity.min.js"></script>
     <script src="js/config.js"></script>

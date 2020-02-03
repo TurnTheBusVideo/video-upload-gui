@@ -13,8 +13,8 @@ var WildRydes = window.WildRydes || {};
     var userPool;
 
     if (!(_config.cognito.userPoolId &&
-          _config.cognito.userPoolClientId &&
-          _config.cognito.region)) {
+        _config.cognito.userPoolClientId &&
+        _config.cognito.region)) {
         $('#noCognitoMessage').show();
         return;
     }
@@ -131,11 +131,13 @@ var WildRydes = window.WildRydes || {};
     }
 
     function handleRegister(event) {
+        $('#registerMask').attr('hidden', false);
         var email = $('#emailInputRegister').val();
         var password = $('#passwordInputRegister').val();
         var password2 = $('#password2InputRegister').val();
 
         var onSuccess = function registerSuccess(result) {
+            $('#registerMask').attr('hidden', true);
             var cognitoUser = result.user;
             console.log('user name is ' + cognitoUser.getUsername());
             var confirmation = ('Registration successful. Please check your email inbox or spam folder for your verification code.');
@@ -144,7 +146,8 @@ var WildRydes = window.WildRydes || {};
             }
         };
         var onFailure = function registerFailure(err) {
-            alert(err);
+            $('#registerMask').attr('hidden', true);
+            setError('registrationError', 'Registration Error', err);
         };
         event.preventDefault();
 
@@ -156,6 +159,7 @@ var WildRydes = window.WildRydes || {};
     }
 
     function handleVerify(event) {
+        $('#verifyMask').attr('hidden', false);
         var email = $('#emailInputVerify').val();
         var code = $('#codeInputVerify').val();
         event.preventDefault();
@@ -163,12 +167,20 @@ var WildRydes = window.WildRydes || {};
             function verifySuccess(result) {
                 console.log('call result: ' + result);
                 console.log('Successfully verified');
+                $('#verifyMask').attr('hidden', false);
                 alert('Verification successful. You will now be redirected to the login page.');
                 window.location.href = signinUrl;
             },
             function verifyError(err) {
-                alert(err);
+                $('#verifyMask').attr('hidden', false);
+                setError('verificationError', 'Verification Error', err);
             }
         );
     }
 }(jQuery));
+
+function setError(id, msg, e) {
+    $('#' + id).html(msg);
+    $('#' + id).removeAttr('hidden');
+    e && console.error(e)
+}
