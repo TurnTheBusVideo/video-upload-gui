@@ -1,0 +1,254 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- favicon -->
+    <link rel="icon" type="image/png" href="https://turnthebus.org//images/favicon.png">
+    <!-- custom styles -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <title>Turn the Bus | Video Upload</title>
+</head>
+
+<body>
+    <nav class="navbar justify-content-between">
+        <a class="navbar-brand">
+            <img src="https://turnthebus.org/images/turn-the-bus-logo.png" />
+        </a>
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" href="upload.html">Upload</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="history.html">History</a>
+            </li>
+        </ul>
+        <button id="signOut" class="btn btn-link" type="submit">Sign Out</button>
+    </nav>
+    <div hidden id="uploadMask">
+        <div class="mask">
+            <!-- <div class="loader"></div> -->
+            <h4 class="mask-label">Uploading</p>
+                <div class="progress">
+                    <div id="uploadProgressBar" class="progress-bar" style="width: 0px" role="progressbar"
+                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+        </div>
+    </div>
+    <section class="row">
+        <div class="col col-md"></div>
+        <div class="col-12 col-md-6 col- history-ctr">
+            <h3 class="page-header">Video Upload History</h3>
+            <br>
+            <div class="list-group">
+                <div class="video-history-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1"><b>Title: </b>Daffodils Explained!</h5>
+                        <small class="text-muted">Uploaded on Monday, Feb 17, 2020 10:59pm (3 days ago)</small>
+                    </div>
+                    <br>
+                    <div class="d-lg-inline-flex video-meta">
+                        <p><b>Course: </b>English</p>
+                        <p><b>Section: </b>Poetry</p>
+                        <p><b>Sub-Section: </b>Daffodils</p>
+                    </div>
+                    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.</p>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-6" style="float: left;">
+                            <p><b>Youtube</b><span class="video-status badge badge-success">live</span>
+                                <br>
+                                <a
+                                    href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">youtube.com/watch?v=dQw4w9WgXcQ</a>
+                                <button type="button" class="btn btn-outline-secondary copy-url">copy url</button>
+                            </p>
+                        </div>
+                        <div class="col-sm-6" style="float: left;">
+                            <p><b>EdX</b><span class="video-status badge badge-warning">pending</span>
+                                <br>
+                                <a
+                                    href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">youtube.com/watch?v=dQw4w9WgXcQ</a>
+                                <button type="button" class="btn btn-outline-secondary copy-url">copy url</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-history-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1"><b>Title: </b>Daffodils Explained!</h5>
+                        <small class="text-muted">Uploaded on Monday, Feb 17, 2020 10:59pm (3 days ago)</small>
+                    </div>
+                    <br>
+                    <div class="d-lg-inline-flex video-meta">
+                        <p><b>Course: </b>English</p>
+                        <p><b>Section: </b>Poetry</p>
+                        <p><b>Sub-Section: </b>Daffodils</p>
+                    </div>
+                    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.</p>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-6" style="float: left;">
+                            <p><b>Youtube</b><span class="video-status badge badge-success">live</span>
+                                <br>
+                                <a
+                                    href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">youtube.com/watch?v=dQw4w9WgXcQ</a>
+                                <button type="button" class="btn btn-outline-secondary copy-url">copy url</button>
+                            </p>
+                        </div>
+                        <div class="col-sm-6" style="float: left;">
+                            <p><b>EdX</b><span class="video-status badge badge-warning">pending</span>
+                                <br>
+                                <a
+                                    href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">youtube.com/watch?v=dQw4w9WgXcQ</a>
+                                <button type="button" class="btn btn-outline-secondary copy-url">copy url</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-history-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1"><b>Title: </b>Daffodils Explained!</h5>
+                        <small class="text-muted">Uploaded on Monday, Feb 17, 2020 10:59pm (3 days ago)</small>
+                    </div>
+                    <br>
+                    <div class="d-lg-inline-flex video-meta">
+                        <p><b>Course: </b>English</p>
+                        <p><b>Section: </b>Poetry</p>
+                        <p><b>Sub-Section: </b>Daffodils</p>
+                    </div>
+                    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.</p>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-6" style="float: left;">
+                            <p><b>Youtube</b><span class="video-status badge badge-success">live</span>
+                                <br>
+                                <a
+                                    href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">youtube.com/watch?v=dQw4w9WgXcQ</a>
+                                <button type="button" class="btn btn-outline-secondary copy-url">copy url</button>
+                            </p>
+                        </div>
+                        <div class="col-sm-6" style="float: left;">
+                            <p><b>EdX</b><span class="video-status badge badge-warning">pending</span>
+                                <br>
+                                <a
+                                    href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">youtube.com/watch?v=dQw4w9WgXcQ</a>
+                                <button type="button" class="btn btn-outline-secondary copy-url">copy url</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-history-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1"><b>Title: </b>Daffodils Explained!</h5>
+                        <small class="text-muted">Uploaded on Monday, Feb 17, 2020 10:59pm (3 days ago)</small>
+                    </div>
+                    <br>
+                    <div class="d-lg-inline-flex video-meta">
+                        <p><b>Course: </b>English</p>
+                        <p><b>Section: </b>Poetry</p>
+                        <p><b>Sub-Section: </b>Daffodils</p>
+                    </div>
+                    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.</p>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-6" style="float: left;">
+                            <p><b>Youtube</b><span class="video-status badge badge-success">live</span>
+                                <br>
+                                <a
+                                    href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">youtube.com/watch?v=dQw4w9WgXcQ</a>
+                                <button type="button" class="btn btn-outline-secondary copy-url">copy url</button>
+                            </p>
+                        </div>
+                        <div class="col-sm-6" style="float: left;">
+                            <p><b>EdX</b><span class="video-status badge badge-warning">pending</span>
+                                <br>
+                                <a
+                                    href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">youtube.com/watch?v=dQw4w9WgXcQ</a>
+                                <button type="button" class="btn btn-outline-secondary copy-url">copy url</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-history-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1"><b>Title: </b>Daffodils Explained!</h5>
+                        <small class="text-muted">Uploaded on Monday, Feb 17, 2020 10:59pm (3 days ago)</small>
+                    </div>
+                    <br>
+                    <div class="d-lg-inline-flex video-meta">
+                        <p><b>Course: </b>English</p>
+                        <p><b>Section: </b>Poetry</p>
+                        <p><b>Sub-Section: </b>Daffodils</p>
+                    </div>
+                    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+                        varius blandit.</p>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-6" style="float: left;">
+                            <p><b>Youtube</b><span class="video-status badge badge-success">live</span>
+                                <br>
+                                <a
+                                    href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">youtube.com/watch?v=dQw4w9WgXcQ</a>
+                                <button type="button" class="btn btn-outline-secondary copy-url">copy url</button>
+                            </p>
+                        </div>
+                        <div class="col-sm-6" style="float: left;">
+                            <p><b>EdX</b><span class="video-status badge badge-warning">pending</span>
+                                <br>
+                                <a
+                                    href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">youtube.com/watch?v=dQw4w9WgXcQ</a>
+                                <button type="button" class="btn btn-outline-secondary copy-url">copy url</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="col col-md"></div>
+        </div>
+        <!-- custom js -->
+        <script src="js/vendor/aws-cognito-sdk.min.js"></script>
+        <script src="js/vendor/amazon-cognito-identity.min.js"></script>
+        <script src="js/config.js"></script>
+        <script src="js/cognito-auth.js"></script>
+        <script src="js/upload.js"></script>
+</body>
+
+</html>

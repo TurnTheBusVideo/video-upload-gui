@@ -24,9 +24,19 @@
 
 <body>
     <nav class="navbar justify-content-between">
-        <a class="navbar-brand"></a>
+        <a class="navbar-brand">
+            <img src="https://turnthebus.org/images/turn-the-bus-logo.png" />
+        </a>
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link active" href="upload.html">Upload</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="history.html">History</a>
+            </li>
+        </ul>
         <button id="signOut" class="btn btn-link" type="submit">Sign Out</button>
-      </nav>
+    </nav>
     <div hidden id="uploadMask">
         <div class="mask">
             <!-- <div class="loader"></div> -->
@@ -41,9 +51,6 @@
         <div class="col col-md"></div>
         <div class="col-12 col-md-6 col-">
             <form id="ttbVideoUploadForm">
-                <img src="https://turnthebus.org/images/turn-the-bus-logo.png" />
-                <br>
-                <br>
                 <h3>Video Upload</h3>
                 <br>
                 <div class="form-group">
@@ -89,13 +96,13 @@
             </div>
         </div>
         <div class="col col-md"></div>
-    </div>
-    <!-- custom js -->
-    <script src="js/vendor/aws-cognito-sdk.min.js"></script>
-    <script src="js/vendor/amazon-cognito-identity.min.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/cognito-auth.js"></script>
-    <script src="js/upload.js"></script>
+        </div>
+        <!-- custom js -->
+        <script src="js/vendor/aws-cognito-sdk.min.js"></script>
+        <script src="js/vendor/amazon-cognito-identity.min.js"></script>
+        <script src="js/config.js"></script>
+        <script src="js/cognito-auth.js"></script>
+        <script src="js/upload.js"></script>
 </body>
 
 </html>
