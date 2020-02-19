@@ -52,11 +52,7 @@ const sendFile = function (event) {
                 setError('PUT: Server response error, please check console/network logs.')
             }
         };
-        const data = {
-            file: event.target.result,
-            ...getFormValues()
-        };
-        xhr.send(data);
+        xhr.send(event.target.result);
     } else {
         !signedURL && setError('Server Error!');
         !authToken && setError('Authorization Failed!');
@@ -66,6 +62,7 @@ const reader = new FileReader()
 reader.onload = sendFile
 
 const handleSubmit = event => {
+    event.preventDefault();
     showMask();
     hideUploadError();
     hideSuccessMsg();
@@ -85,7 +82,8 @@ const handleSubmit = event => {
         },
         data: {
             bucket: 'test-turnthebus-upload',
-            key: selectedFile.name
+            key: selectedFile.name,
+            ...getFormValues()
         },
         success: function (data, textStatus, jqXHR) {
             try {
@@ -99,7 +97,6 @@ const handleSubmit = event => {
             setError('Could not get signed URL, please check console/network logs.')
         }
     });
-    event.preventDefault();
 }
 
 window.onload = event => {
