@@ -14,6 +14,23 @@ WildRydes.authToken.then(function setAuthToken(token) {
 });
 
 let signedURL = false
+
+
+const getFormValues = () => {
+    var formFields = $('#ttbVideoUploadForm').serializeArray();
+    var formFieldsObj = {};
+    formFields.forEach(formField => {
+        formFieldsObj[formField.name] = formField.value
+    })
+    return {
+        accessKey: formFieldsObj.accessKey || "",
+        course: formFieldsObj.course || "",
+        section: formFieldsObj.section || "",
+        subsection: formFieldsObj.subsection || "",
+        notes: formFieldsObj.notes || ""
+    }
+}
+
 const sendFile = function (event) {
     if (signedURL && authToken) {
         const xhr = new XMLHttpRequest();
@@ -35,7 +52,11 @@ const sendFile = function (event) {
                 setError('PUT: Server response error, please check console/network logs.')
             }
         };
-        xhr.send(event.target.result);
+        const data = {
+            file: event.target.result,
+            ...getFormValues()
+        };
+        xhr.send(data);
     } else {
         !signedURL && setError('Server Error!');
         !authToken && setError('Authorization Failed!');
@@ -43,6 +64,44 @@ const sendFile = function (event) {
 }
 const reader = new FileReader()
 reader.onload = sendFile
+
+const handleSubmit = event => {
+    showMask();
+    hideUploadError();
+    hideSuccessMsg();
+    let selectedFile = $('#file')[0].files[0]
+    if (!selectedFile) {
+        setError('Please select a file to upload!');
+        return;
+    }
+    $.ajax({
+        type: "GET",
+        url: _config.api.invokeUrl + "/getsignedurl",
+        crossdomain: true,
+        contentType: 'application/json',
+        dataType: 'json',
+        headers: {
+            Authorization: authToken
+        },
+        data: {
+            bucket: 'test-turnthebus-upload',
+            key: selectedFile.name
+        },
+        success: function (data, textStatus, jqXHR) {
+            try {
+                signedURL = data.signedURL
+                reader.readAsArrayBuffer(selectedFile)
+            } catch (e) {
+                setError('GET: Server response error, please check console/network logs.', e)
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            setError('Could not get signed URL, please check console/network logs.')
+        }
+    });
+    event.preventDefault();
+}
+
 window.onload = event => {
     resetState();
     $('#signOut').click(function () {
@@ -51,39 +110,7 @@ window.onload = event => {
         window.location = "index.html";
     });
     try {
-        $('#submitUploadForm').click(event => {
-            showMask();
-            hideUploadError();
-            hideSuccessMsg();
-            let selectedFile = $('#file')[0].files[0]
-            $.ajax({
-                type: "GET",
-                url: _config.api.invokeUrl + "/getsignedurl",
-                crossdomain: true,
-                contentType: 'application/json',
-                dataType: 'json',
-                headers: {
-                    Authorization: authToken
-                },
-                data: {
-                    bucket: 'test-turnthebus-upload',
-                    key: selectedFile.name
-                },
-                success: function (data, textStatus, jqXHR) {
-                    try {
-                        signedURL = data.signedURL
-                        console.log('Signed URL', signedURL)
-                        reader.readAsArrayBuffer(selectedFile)
-                    } catch (e) {
-                        setError('GET: Server response error, please check console/network logs.', e)
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    setError('Could not get signed URL, please check console/network logs.')
-                }
-            });
-            event.preventDefault();
-        })
+        $('#submitUploadForm').click(handleSubmit)
     } catch (e) {
         setError('Some error occurced! Please try again.', e);
     }
