@@ -53,11 +53,101 @@
             <form id="ttbVideoUploadForm">
                 <h3>Video Upload</h3>
                 <br>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="accessKey">Access Key</label>
                     <input type="text" class="form-control" id="accessKey" name="accessKey">
+                </div> -->
+                <h4>Class Information</h4>
+                <br>
+                <div class="form-group">
+                    <label for="class">Class</label><span class="red">*</span>
+                    <select required class="form-control" id="class" name="class">
+                        <option></option>
+                        <option>Class 1</option>
+                        <option>Class 2</option>
+                        <option>Class 3</option>
+                        <option>Class 4</option>
+                        <option>Class 5</option>
+                        <option>Class 6</option>
+                        <option>Class 7</option>
+                        <option>Class 8</option>
+                        <option>Class 9</option>
+                        <option>Class 10</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a class.
+                      </div>
                 </div>
                 <div class="form-group">
+                    <label for="stream">Stream</label>
+                    <select class="form-control" id="stream" name="stream">
+                        <option></option>
+                        <option>Science</option>
+                        <option>Commerce</option>
+                        <option>Arts</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="board">Board of examination</label><span class="red">*</span>
+                    <select required class="form-control" id="board" name="board">
+                        <option></option>
+                        <option>State</option>
+                        <option>CBSE</option>
+                        <option>ICSE</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a Board.
+                      </div>
+                </div>
+                <h4>Book Information</h4>
+                <br>
+                <div class="form-group">
+                    <label for="bookname">Book Name</label><span class="red">*</span>
+                    <select required class="form-control" id="bookname" name="bookname">
+                        <option></option>
+                        <option>Science</option>
+                        <option>Maths</option>
+                        <option>History</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a book name.
+                      </div>
+                </div>
+                <div class="form-group">
+                    <label for="bookpartname">Book Part number</label>
+                    <select required class="form-control" id="bookpartname" name="bookpartname">
+                        <option></option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a book part name.
+                      </div>
+                </div>
+                <div class="form-group">
+                    <label for="chaptername">Chapter name</label><span class="red">*</span>
+                    <input type="text" class="form-control" id="chapternumber" placeholder="Daffodils" required>
+                    <div class="invalid-feedback">
+                        Please enter a chapter name.
+                      </div>
+                </div>
+                <div class="form-group">
+                    <label for="chapternumber">Chapter number</label><span class="red">*</span>
+                    <input type="text" class="form-control" id="chaptername" placeholder="01" required>
+                    <div class="invalid-feedback">
+                        Please enter a chapter number.
+                      </div>
+                </div>
+                <div class="form-group">
+                    <label for="chapterpart">Chapter Part</label><span class="red">*</span>
+                    <select required class="form-control" id="chapterpart" name="chapterpart">
+                        <option></option>
+                        <option>Part 1</option>
+                        <option>Part 2</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a chapter part.
+                      </div>
+                </div>
+                <!-- <div class="form-group">
                     <label for="course">Course</label>
                     <select class="form-control" id="course" name="course">
                         <option>English</option>
@@ -77,14 +167,19 @@
                         <option>The Daffodils</option>
                         <option>Other</option>
                     </select>
-                </div>
+                </div> -->
+                <h4>Video Details</h4>
+                <br>
                 <div class="form-group">
-                    <label for="notes">Notes (optional)</label>
+                    <label for="notes">Description</label>
                     <textarea class="form-control" id="notes" rows="3" name="notes"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="file">Video file</label>
-                    <input type="file" class="form-control-file" id="file">
+                    <input retuired type="file" class="form-control-file" id="file">
+                    <div class="invalid-feedback">
+                        Please upload a file.
+                      </div>
                 </div>
                 <br><button id="submitUploadForm" class="btn btn-primary">Upload</button>
             </form>

@@ -61,8 +61,23 @@ const sendFile = function (event) {
 const reader = new FileReader()
 reader.onload = sendFile
 
+const formValidation = function(event) {
+    const form = event.target;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    form.classList.add('was-validated');
+  }
+
 const handleSubmit = event => {
     event.preventDefault();
+    const form = $('#ttbVideoUploadForm')[0];
+    if (form.checkValidity() === false) {
+        event.stopPropagation();
+        form.classList.add('was-validated');
+        return;
+      }
     showMask();
     hideUploadError();
     hideSuccessMsg();
