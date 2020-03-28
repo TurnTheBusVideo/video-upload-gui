@@ -53,131 +53,116 @@
             <form id="ttbVideoUploadForm">
                 <h3>Video Upload</h3>
                 <br>
-                <!-- <div class="form-group">
-                    <label for="accessKey">Access Key</label>
-                    <input type="text" class="form-control" id="accessKey" name="accessKey">
-                </div> -->
                 <h4>Class Information</h4>
                 <br>
                 <div class="form-group">
                     <label for="class">Class</label><span class="red">*</span>
                     <select required class="form-control" id="class" name="class">
                         <option></option>
-                        <option>Class X</option>
-                        <option>Class XII</option>
+                        <option value="Class X">Class X</option>
+                        <option value="Class XII">Class XII</option>
                     </select>
                     <div class="invalid-feedback">
                         Please select a class.
-                      </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="stream">Stream</label>
                     <select class="form-control" id="stream" name="stream">
                         <option></option>
-                        <option>Science</option>
-                        <option>Commerce</option>
                         <option>Arts</option>
+                        <option>Commerce</option>
+                        <option>Science</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="board">Board of examination</label><span class="red">*</span>
                     <select required class="form-control" id="board" name="board">
                         <option></option>
-                        <option>State</option>
                         <option>CBSE</option>
                         <option>ICSE</option>
+                        <option>State</option>
                     </select>
                     <div class="invalid-feedback">
                         Please select a Board.
-                      </div>
+                    </div>
                 </div>
                 <h4>Book Information</h4>
                 <br>
                 <div class="form-group">
-                    <label for="bookname">Book Name</label><span class="red">*</span>
-                    <select required class="form-control" id="bookname" name="bookname">
+                    <label for="bookName">Book Name</label><span class="red">*</span>
+                    <select required class="form-control" id="bookName" name="bookName">
                         <option></option>
-                        <option>Hindi Compulsory</option>
-                        <option>Hindi-Digant</option>
                         <option>English Compulsory</option>
                         <option>English-Rainbow</option>
+                        <option>Geography</option>
+                        <option>Hindi Compulsory</option>
+                        <option>Hindi-Digant</option>
                         <option>Political Science</option>
                         <option>Pol Hind-World</option>
                         <option>Poltitical Science 2</option>
-                        <option>Geography </option>
-                        <option>Sociology</option>
                         <option>Psychology</option>
+                        <option>Sociology</option>
                     </select>
                     <div class="invalid-feedback">
                         Please select a book name.
-                      </div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="bookpartname">Book Part number</label>
-                    <select class="form-control" id="bookpartname" name="bookpartname">
+                    <label for="bookPartName">Book Part number</label>
+                    <select class="form-control" id="bookPartName" name="bookPartName">
                         <option></option>
                         <option>Book Part 1</option>
                         <option>Book Part 2</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="chaptername">Chapter name</label><span class="red">*</span>
-                    <input type="text" class="form-control" id="chapternumber" placeholder="Daffodils" required>
+                    <label for="chapterName">Chapter name</label><span class="red">*</span>
+                    <input name="chapterName" type="text" class="form-control" id="chapterName" placeholder="Daffodils"
+                        required>
                     <div class="invalid-feedback">
                         Please enter a chapter name.
-                      </div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="chapternumber">Chapter number</label><span class="red">*</span>
-                    <input type="text" class="form-control" id="chaptername" placeholder="01" required>
+                    <label for="chapterNumber">Chapter number</label><span class="red">*</span>
+                    <input name="chapterNumber" type="text" class="form-control" id="chapterNumber" placeholder="01"
+                        required>
                     <div class="invalid-feedback">
                         Please enter a chapter number.
-                      </div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="chapterpart">Chapter Part</label><span class="red">*</span>
-                    <select required class="form-control" id="chapterpart" name="chapterpart">
+                    <label for="chapterPart">Chapter Part</label><span class="red">*</span>
+                    <select required class="form-control" id="chapterPart" name="chapterPart">
                         <option></option>
                         <option>Chapter Part 1</option>
                         <option>Chapter Part 2</option>
                     </select>
                     <div class="invalid-feedback">
                         Please select a chapter part.
-                      </div>
-                </div>
-                <!-- <div class="form-group">
-                    <label for="course">Course</label>
-                    <select class="form-control" id="course" name="course">
-                        <option>English</option>
-                        <option>Other</option>
-                    </select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="section">Section</label>
                     <select class="form-control" id="section" name="section">
+                        <option></option>
                         <option>Poetry</option>
-                        <option>Other</option>
+                        <option>Prose</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="subsection">Subsection</label>
-                    <select class="form-control" id="subsection" name="subsection">
-                        <option>The Daffodils</option>
-                        <option>Other</option>
-                    </select>
-                </div> -->
                 <h4>Video Details</h4>
                 <br>
                 <div class="form-group">
                     <label for="title">Title</label><span class="red">*</span>
-                    <input type="text" class="form-control" id="title" placeholder="Video Title" required>
+                    <input name="title" type="text" class="form-control" id="title" placeholder="Video Title" required>
                     <div class="invalid-feedback">
                         Please enter a video title.
-                      </div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="notes">Description</label>
-                    <textarea class="form-control" id="notes" rows="3" name="notes"></textarea>
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" rows="3" name="description"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="videoLanguage">Language</label><span class="red">*</span>
@@ -188,14 +173,14 @@
                     </select>
                     <div class="invalid-feedback">
                         Please select a language.
-                      </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="file">Video file</label><span class="red">*</span>
                     <input required type="file" class="form-control-file" id="file">
                     <div class="invalid-feedback">
                         Please upload a file.
-                      </div>
+                    </div>
                 </div>
                 <div hidden id="uploadError" class="alert alert-danger" role="alert">
                     Some error occurced! Please try again.

@@ -23,11 +23,19 @@ const getFormValues = () => {
         formFieldsObj[formField.name] = formField.value
     })
     return {
-        accessKey: formFieldsObj.accessKey || "",
-        course: formFieldsObj.course || "",
-        section: formFieldsObj.section || "",
-        subsection: formFieldsObj.subsection || "",
-        notes: formFieldsObj.notes || ""
+        classN: formFieldsObj.class || "NULL",
+        stream: formFieldsObj.stream || "NULL",
+        board: formFieldsObj.board || "NULL",
+        bookName: formFieldsObj.bookName || "NULL",
+        bookPartName: formFieldsObj.bookPartName || "NULL",
+        chapterName: formFieldsObj.chapterName || "NULL",
+        chapterNumber: formFieldsObj.chapterNumber || "NULL",
+        chapterPart: formFieldsObj.chapterPart || "NULL",
+        section: formFieldsObj.section || "NULL",
+        title: formFieldsObj.title || "NULL",
+        description: formFieldsObj.description || "NULL",
+        videoLanguage: formFieldsObj.videoLanguage || "NULL",
+        awsRegion: _config.cognito.region
     }
 }
 
@@ -60,16 +68,6 @@ const sendFile = function (event) {
 }
 const reader = new FileReader()
 reader.onload = sendFile
-
-const formValidation = function(event) {
-    const form = event.target;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    form.classList.add('was-validated');
-  }
-
 const handleSubmit = event => {
     event.preventDefault();
     const form = $('#ttbVideoUploadForm')[0];
@@ -77,7 +75,7 @@ const handleSubmit = event => {
         event.stopPropagation();
         form.classList.add('was-validated');
         return;
-      }
+    }
     showMask();
     hideUploadError();
     hideSuccessMsg();
