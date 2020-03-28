@@ -171,12 +171,19 @@
                 <h4>Video Details</h4>
                 <br>
                 <div class="form-group">
+                    <label for="title">Title</label><span class="red">*</span>
+                    <input type="text" class="form-control" id="title" placeholder="Video Title" required>
+                    <div class="invalid-feedback">
+                        Please enter a video title.
+                      </div>
+                </div>
+                <div class="form-group">
                     <label for="notes">Description</label>
                     <textarea class="form-control" id="notes" rows="3" name="notes"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="file">Video file</label>
-                    <input retuired type="file" class="form-control-file" id="file">
+                    <label for="file">Video file</label><span class="red">*</span>
+                    <input required type="file" class="form-control-file" id="file">
                     <div class="invalid-feedback">
                         Please upload a file.
                       </div>
