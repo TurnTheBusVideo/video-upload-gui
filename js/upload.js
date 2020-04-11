@@ -35,6 +35,7 @@ const getFormValues = () => {
         title: formFieldsObj.title || "NULL",
         description: formFieldsObj.description || "NULL",
         videoLanguage: formFieldsObj.videoLanguage || "NULL",
+        tags: formFieldsObj.tags || "Turn the bus, educational, tutorial, tutor, education",
         awsRegion: _config.cognito.region
     }
 }
@@ -114,6 +115,15 @@ const handleSubmit = event => {
 
 window.onload = event => {
     resetState();
+    $('#file').change(function (event) {
+        const target = event.target;
+        if (target && target.files && target.files.length && target.files.length === 1) {
+            const file = target.files[0];
+            if (file && file.name) {
+                $('#fileName')[0].innerHTML = file.name;
+            }
+        }
+    })
     $('#signOut').click(function () {
         WildRydes.signOut();
         alert("You have been signed out.");

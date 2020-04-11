@@ -159,10 +159,33 @@
                     <div class="invalid-feedback">
                         Please enter a video title.
                     </div>
+                    <small id="titleHelpBlock" class="form-text text-muted">
+                        This will appear as the video title on YouTube and EdX. A catchy title can help you hook
+                        viewers. When you create video
+                        titles, it’s a good idea to include keywords your audience is likely to use when looking for
+                        videos like yours. <a target="_blank"
+                            href="https://creatoracademy.youtube.com/page/lesson/titles">Learn more</a>
+                    </small>
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
                     <textarea class="form-control" id="description" rows="3" name="description"></textarea>
+                    <small id="descriptionHelpBlock" class="form-text text-muted">
+                        This will appear as the video description on YouTube. Writing descriptions with keywords can
+                        help
+                        viewers find your videos more easily through search. You can give an overview of your video and
+                        place keywords in the beginning of the description. <a target="_blank"
+                            href="https://creatoracademy.youtube.com/page/lesson/descriptions">Learn more</a>
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="tags">Tags</label>
+                    <textarea class="form-control" id="tags" rows="3" name="tags"
+                        placeholder="Turn the bus, educational, tutorial, tutor, education"></textarea>
+                    <small id="tagsHelpBlock" class="form-text text-muted">
+                        Enter comma-separated values.
+                        <a target="_blank" href="https://support.google.com/youtube/answer/146402?hl=en">Learn more</a>
+                    </small>
                 </div>
                 <div class="form-group">
                     <label for="videoLanguage">Language</label><span class="red">*</span>
@@ -175,11 +198,14 @@
                         Please select a language.
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom: 4em;">
                     <label for="file">Video file</label><span class="red">*</span>
-                    <input required type="file" class="form-control-file" id="file">
-                    <div class="invalid-feedback">
-                        Please upload a file.
+                    <div class="custom-file">
+                        <input required type="file" class="custom-file-input" id="file">
+                        <label id="fileName" class="custom-file-label">Choose file</label>
+                        <div class="invalid-feedback">
+                            Please upload a file.
+                        </div>
                     </div>
                 </div>
                 <div hidden id="uploadError" class="alert alert-danger" role="alert">
