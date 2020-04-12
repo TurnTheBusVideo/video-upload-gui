@@ -14,6 +14,7 @@ WildRydes.authToken.then(function setAuthToken(token) {
 });
 
 let signedURL = false
+let fileNameUTC = false
 
 
 const getFormValues = () => {
@@ -40,6 +41,35 @@ const getFormValues = () => {
     }
 }
 
+const updateVideoMetaData = () => {
+    if(fileNameUTC) {
+        $.ajax({
+            type: "GET",
+            url: _config.api.invokeUrl + "/updatevideometadata",
+            crossdomain: true,
+            contentType: 'application/json',
+            dataType: 'json',
+            headers: {
+                Authorization: authToken
+            },
+            data: {
+                bucket: 'test-turnthebus-upload',
+                key: fileNameUTC,
+                ...getFormValues()
+            },
+            success: function (data, textStatus, jqXHR) {
+                hideMask();
+                showSuccessMsg();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                setError('POST: Could not update video data. Please check console/network logs.')
+            }
+        });
+    } else {
+        setError('Sever Error: Unknown uploaded filename. Please check console/network logs.')
+    }
+}
+
 const sendFile = function (event) {
     if (signedURL && authToken) {
         const xhr = new XMLHttpRequest();
@@ -54,11 +84,10 @@ const sendFile = function (event) {
         xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                hideMask();
-                showSuccessMsg();
+                updateVideoMetaData();
             }
             else if (xhr.readyState !== XMLHttpRequest.HEADERS_RECEIVED) {
-                setError('PUT: Server response error, please check console/network logs.')
+                setError('PUT: Server response error. Please check console/network logs.')
             }
         };
         xhr.send(event.target.result);
@@ -101,14 +130,15 @@ const handleSubmit = event => {
         },
         success: function (data, textStatus, jqXHR) {
             try {
-                signedURL = data.signedURL
-                reader.readAsArrayBuffer(selectedFile)
+                signedURL = data.signedURL;
+                fileNameUTC = data.fileName;
+                reader.readAsArrayBuffer(selectedFile);
             } catch (e) {
                 setError('GET: Server response error, please check console/network logs.', e)
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            setError('Could not get signed URL, please check console/network logs.')
+            setError('GET: Could not get signed URL, please check console/network logs.')
         }
     });
 }
