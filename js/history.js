@@ -83,7 +83,24 @@ const createMetaData = (metaData) => {
     }, chips);
     return div;
 }
-const getTimeStamp = (uploadID) => uploadID;
+const getTimeStamp = (uploadID) => {
+    if (uploadID) {
+        let temp = uploadID.split('.');
+        if (temp && temp.length) {
+            temp = temp[0];
+            temp = temp.split('_');
+            if (temp && temp.length) {
+                const UTCStr = temp.pop();
+                if (UTCStr) {
+                    var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+                    d.setUTCMilliseconds(UTCStr);
+                    return d.toString();
+                }
+            }
+        }
+    }
+    return 'Unavailable';
+};
 
 const createHeader = (videoTitle, uploadID) => {
     const h5 = el('h5', {
