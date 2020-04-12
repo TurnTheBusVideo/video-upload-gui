@@ -41,8 +41,86 @@ const getFormValues = () => {
     }
 }
 
+const fieldMap = {
+    'Class': 'class',
+    'Stream': 'stream',
+    'board': 'board'
+}
+
+const updateFormOptions = (field, valuesString) => {
+    if (valuesString && typeof valuesString === 'string' && valuesString.length) {
+        field.innerHTML = '';
+        const valuesArray = valuesString.split(',').map(value => value.trim());
+        if (field.getAttribute('required') === null) {
+            const emptyOption = document.createElement('option');
+            field.appendChild(emptyOption);
+        }
+        valuesArray.forEach(trimmedValue => {
+            const selectOption = document.createElement('option');
+            selectOption.setAttribute('value', trimmedValue)
+            selectOption.innerHTML = trimmedValue;
+            field.appendChild(selectOption);
+        })
+
+    }
+}
+
+const getFormItemId = (fieldName) => {
+    return fieldMap[fieldName] ? fieldMap[fieldName] : '';
+}
+
+const setFormOptions = (items) => {
+    if (items && items.length && items.length > 0) {
+        items.forEach(item => {
+            const { fieldName, values } = item;
+            const formItemId = getFormItemId(fieldName);
+            const fields = $('#' + formItemId);
+            const field = fields && fields.length && fields.length === 1 ? fields[0] : false;
+            if (field) {
+                updateFormOptions(field, values);
+            }
+        })
+    }
+};
+
+const showForm = () => {
+    const form = $('#ttbVideoUploadForm')[0];
+    form.removeAttribute('hidden');
+    const formLoader = $('#formLoader')[0];
+    formLoader.setAttribute('hidden', true);
+}
+
+const getFormData = () => {
+    if (authToken) {
+        $.ajax({
+            type: "GET",
+            url: _config.api.invokeUrl + "/scantable",
+            crossdomain: true,
+            contentType: 'application/json',
+            dataType: 'json',
+            headers: {
+                Authorization: authToken
+            },
+            data: {
+                tableName: 'videoMetadata'
+            },
+            success: function (data, textStatus, jqXHR) {
+                setFormOptions(data.result.Items);
+                hideMask();
+                showSuccessMsg();
+                showForm();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                setError('POST: Could not update video data. Please check console/network logs.')
+            }
+        });
+    } else {
+        setError('GET: Cannot get form data. Please check console/network logs.')
+    }
+}
+
 const updateVideoMetaData = () => {
-    if(fileNameUTC) {
+    if (fileNameUTC) {
         $.ajax({
             type: "GET",
             url: _config.api.invokeUrl + "/updatevideometadata",
@@ -160,10 +238,11 @@ window.onload = event => {
         alert("You have been signed out.");
         window.location = "index.html";
     });
+    getFormData();
     try {
         $('#submitUploadForm').click(handleSubmit)
     } catch (e) {
-        setError('Some error occurced! Please try again.', e);
+        setError('Some error ocurred! Please try again.', e);
     }
 }
 function resetState() {
