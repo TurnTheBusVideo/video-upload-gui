@@ -41,12 +41,6 @@ const getFormValues = () => {
     }
 }
 
-const fieldMap = {
-    'Class': 'class',
-    'Stream': 'stream',
-    'board': 'board'
-}
-
 const updateFormOptions = (field, valuesString) => {
     if (valuesString && typeof valuesString === 'string' && valuesString.length) {
         field.innerHTML = '';
@@ -65,16 +59,11 @@ const updateFormOptions = (field, valuesString) => {
     }
 }
 
-const getFormItemId = (fieldName) => {
-    return fieldMap[fieldName] ? fieldMap[fieldName] : '';
-}
-
 const setFormOptions = (items) => {
     if (items && items.length && items.length > 0) {
         items.forEach(item => {
-            const { fieldName, values } = item;
-            const formItemId = getFormItemId(fieldName);
-            const fields = $('#' + formItemId);
+            const { values, formFieldId } = item;
+            const fields = $('#' + formFieldId);
             const field = fields && fields.length && fields.length === 1 ? fields[0] : false;
             if (field) {
                 updateFormOptions(field, values);
@@ -106,8 +95,6 @@ const getFormData = () => {
             },
             success: function (data, textStatus, jqXHR) {
                 setFormOptions(data.result.Items);
-                hideMask();
-                showSuccessMsg();
                 showForm();
             },
             error: function (jqXHR, textStatus, errorThrown) {
