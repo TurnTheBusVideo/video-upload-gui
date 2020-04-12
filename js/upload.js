@@ -71,6 +71,7 @@ const updateVideoMetaData = () => {
 }
 
 const sendFile = function (event) {
+    setUploadProgress(0);
     if (signedURL && authToken) {
         const xhr = new XMLHttpRequest();
         this.xhr = xhr;
