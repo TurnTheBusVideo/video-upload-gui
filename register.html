@@ -76,9 +76,16 @@
                 <div class="form-group">
                     <label for="passwordInputRegister">Password</label>
                     <input type="password" id="passwordInputRegister" class="form-control" pattern=".*" required>
+                    <small id="titleHelpBlock" class="form-text text-muted">
+                        Minimum length: 8<br />
+                        At least 1 numerical character<br />
+                        At least 1 special character<br />
+                        At least 1 uppercase character<br />
+                        At least 1 lowercase character<br />
+                    </small>
                 </div>
                 <div class="form-group">
-                    <label for="password2InputRegister">Password</label>
+                    <label for="password2InputRegister">Re-enter Password</label>
                     <input type="password" id="password2InputRegister" class="form-control" pattern=".*" required>
                 </div>
                 <input class="btn btn-success" type="submit" value="Register"><br>
@@ -86,7 +93,7 @@
                 <a href="index.html">sign in</a>
             </form>
             <div hidden id="registrationError" class="alert alert-danger" role="alert">
-                Some error occurced! Please try again.
+                Some error ocurred! Please try again.
             </div>
         </div>
         <div class="col col-md"></div>

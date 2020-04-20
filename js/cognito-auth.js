@@ -122,9 +122,17 @@ var WildRydes = window.WildRydes || {};
                 console.log('Successfully Logged In');
                 window.location.href = 'upload.html';
             },
-            function signinError(err) {
+            function signInError(err) {
                 $('#signinMask').attr('hidden', true);
-                $('#signinError').attr('hidden', false);
+                $('#signInError').attr('hidden', false);
+                if(err && err.message && err.message === 'User is disabled.'){
+                    const el = $('#signInError') && $('#signInError')[0] ? $('#signInError')[0] : false;
+                    if(el){
+                        el.classList.remove('alert-danger');
+                        el.classList.add('alert-warning');
+                        el.innerHTML = 'Your account is pending activation by moderators. You will get an email once your account is activated.'
+                    }
+                }
                 console.error(err);
             }
         );

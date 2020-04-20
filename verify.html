@@ -70,13 +70,16 @@
                 <br>
                 <h3>Verify Email</h3>
                 <br>
+                <p>
+                    Enter the email you used for registration along with the verification code we sent to this email.
+                </p>
                 <div class="form-group">
                     <label for="emailInputVerify">Email</label>
                     <input type="email" class="form-control" id="emailInputVerify" required>
                 </div>
                 <div class="form-group">
                     <label for="codeInputVerify">Verification Code</label>
-                    <input type="password" id="codeInputVerify" class="form-control" pattern=".*" required>
+                    <input type="text" id="codeInputVerify" class="form-control" required>
                 </div>
                 <input class="btn btn-success" type="submit" value="Verify">
                 <br>
@@ -86,7 +89,7 @@
                 <a href="index.html">sign in</a>
             </form>
             <div hidden id="verificationError" class="alert alert-danger" role="alert">
-                Some error occurced! Please try again.
+                Some error ocurred! Please try again.
             </div>
         </div>
         <div class="col col-md"></div>
