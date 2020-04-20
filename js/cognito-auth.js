@@ -131,8 +131,12 @@ var WildRydes = window.WildRydes || {};
                     el.classList.add('alert-warning');
                     el.innerHTML = 'Your account is pending activation by moderators. You will get an email once your account is activated.'
                 } else if (el && err && err.message && err.message === 'User is not confirmed.') {
+                    el.classList.remove('alert-warning');
+                    el.classList.add('alert-danger');
                     el.innerHTML = 'Your email is unverified. Please verify your email with the code we sent you.'
                 } else {
+                    el.classList.remove('alert-warning');
+                    el.classList.add('alert-danger');
                     el.innerHTML = 'Some error ocurred! Please try again.'
                 }
                 console.error(err);
@@ -178,7 +182,7 @@ var WildRydes = window.WildRydes || {};
                 console.log('call result: ' + result);
                 console.log('Successfully verified');
                 $('#verifyMask').attr('hidden', false);
-                alert('Verification successful. You will now be redirected to the login page.');
+                alert('Verification successful. Turn the Bus moderators will have to manually activate your account before you can sign-in. You will now be redirected to the login page.');
                 window.location.href = signinUrl;
             },
             function verifyError(err) {
