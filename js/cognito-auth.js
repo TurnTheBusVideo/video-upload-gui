@@ -125,13 +125,15 @@ var WildRydes = window.WildRydes || {};
             function signInError(err) {
                 $('#signinMask').attr('hidden', true);
                 $('#signInError').attr('hidden', false);
-                if(err && err.message && err.message === 'User is disabled.'){
-                    const el = $('#signInError') && $('#signInError')[0] ? $('#signInError')[0] : false;
-                    if(el){
-                        el.classList.remove('alert-danger');
-                        el.classList.add('alert-warning');
-                        el.innerHTML = 'Your account is pending activation by moderators. You will get an email once your account is activated.'
-                    }
+                const el = $('#signInError') && $('#signInError')[0] ? $('#signInError')[0] : false;
+                if (el && err && err.message && err.message === 'User is disabled.') {
+                    el.classList.remove('alert-danger');
+                    el.classList.add('alert-warning');
+                    el.innerHTML = 'Your account is pending activation by moderators. You will get an email once your account is activated.'
+                } else if (el && err && err.message && err.message === 'User is not confirmed.') {
+                    el.innerHTML = 'Your email is unverified. Please verify your email with the code we sent you.'
+                } else {
+                    el.innerHTML = 'Some error ocurred! Please try again.'
                 }
                 console.error(err);
             }
