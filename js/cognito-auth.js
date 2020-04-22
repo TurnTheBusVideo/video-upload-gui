@@ -161,7 +161,7 @@ var WildRydes = window.WildRydes || {};
         };
         var onFailure = function registerFailure(err) {
             $('#registerMask').attr('hidden', true);
-            setError('registrationError', 'Registration Error', err);
+            setError('registrationError', 'Registration Error' + (err && err.message ? ' : ' + err.message : ''), err);
         };
         event.preventDefault();
 
