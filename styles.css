@@ -1,3 +1,219 @@
+#uploadProgressValue {
+  position: absolute;
+  z-index : 1;
+}
+
+.round {
+  width           : 40px;
+  height          : 40px;
+  border-radius   : 100%;
+  background-color: #a6a6a6;
+  transform       : rotate(270deg);
+}
+
+#cta {
+  width   : 100%;
+  cursor  : pointer;
+  position: absolute;
+}
+
+#cta .arrow {
+  left: 30%;
+}
+
+.arrow {
+  position       : absolute;
+  bottom         : 0;
+  margin-left    : 0px;
+  width          : 12px;
+  height         : 12px;
+  background-size: contain;
+  top            : 15px;
+}
+
+.segunda {
+  margin-left: 8px;
+}
+
+.next {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHN0eWxlPi5zdDB7ZmlsbDojZmZmfTwvc3R5bGU+PHBhdGggY2xhc3M9InN0MCIgZD0iTTMxOS4xIDIxN2MyMC4yIDIwLjIgMTkuOSA1My4yLS42IDczLjdzLTUzLjUgMjAuOC03My43LjZsLTE5MC0xOTBjLTIwLjEtMjAuMi0xOS44LTUzLjIuNy03My43UzEwOSA2LjggMTI5LjEgMjdsMTkwIDE5MHoiLz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMzE5LjEgMjkwLjVjMjAuMi0yMC4yIDE5LjktNTMuMi0uNi03My43cy01My41LTIwLjgtNzMuNy0uNmwtMTkwIDE5MGMtMjAuMiAyMC4yLTE5LjkgNTMuMi42IDczLjdzNTMuNSAyMC44IDczLjcuNmwxOTAtMTkweiIvPjwvc3ZnPg==);
+}
+
+@keyframes bounceAlpha {
+  0% {
+    opacity  : 1;
+    transform: translateX(0px) scale(1);
+  }
+
+  25% {
+    opacity  : 0;
+    transform: translateX(10px) scale(0.9);
+  }
+
+  26% {
+    opacity  : 0;
+    transform: translateX(-10px) scale(0.9);
+  }
+
+  55% {
+    opacity  : 1;
+    transform: translateX(0px) scale(1);
+  }
+}
+
+.bounceAlpha {
+  animation-name           : bounceAlpha;
+  animation-duration       : 1.4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.arrow.primera.bounceAlpha {
+  animation-name           : bounceAlpha;
+  animation-duration       : 1.4s;
+  animation-delay          : 0.2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.round:hover .arrow {
+  animation-name           : bounceAlpha;
+  animation-duration       : 1.4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.round:hover .arrow.primera {
+  animation-name           : bounceAlpha;
+  animation-duration       : 1.4s;
+  animation-delay          : 0.2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+
+
+.card {
+  background   : #fff;
+  border-radius: 2px;
+  display      : inline-block;
+  height       : 300px;
+  margin       : 1rem;
+  position     : relative;
+  width        : 300px;
+}
+
+.card-1 {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+}
+
+.card-1:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.card-2 {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.card-3 {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.card-4 {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.card-5 {
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.stairs-loader,
+.stairs-loader:before,
+.stairs-loader:after {
+  background       : #ffffff;
+  -webkit-animation: load1 1s infinite ease-in-out;
+  animation        : load1 1s infinite ease-in-out;
+  width            : 1em;
+  height           : 4em;
+}
+
+.stairs-loader {
+  color                  : #ffffff;
+  text-indent            : -9999em;
+  margin                 : auto;
+  position               : relative;
+  font-size              : 4px;
+  -webkit-transform      : translateZ(0);
+  -ms-transform          : translateZ(0);
+  transform              : translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay        : -0.16s;
+  min-height             : 20px;
+}
+
+.stairs-loader:before,
+.stairs-loader:after {
+  position: absolute;
+  top     : 0;
+  content : '';
+}
+
+.stairs-loader:before {
+  left                   : -1.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay        : -0.32s;
+}
+
+.stairs-loader:after {
+  left: 1.5em;
+}
+
+@-webkit-keyframes load1 {
+
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0;
+    height    : 4em;
+  }
+
+  40% {
+    box-shadow: 0 -2em;
+    height    : 5em;
+  }
+}
+
+@keyframes load1 {
+
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0;
+    height    : 4em;
+  }
+
+  40% {
+    box-shadow: 0 -2em;
+    height    : 5em;
+  }
+}
+
+
+
+#uploadProgressBarCtr {
+  text-align : center;
+  color      : black;
+  font-weight: bolder;
+  display    : block;
+  line-height: 2rem;
+  height     : 2rem;
+}
+
+.progress-bar {
+  background-color: #8BC34A !important;
+}
+
 .nav-pills {
   border       : 1px solid #007bff;
   border-radius: 7px;
@@ -225,6 +441,6 @@ nav {
 }
 
 .contentLoaderCtr {
-  font-size: 1.5em;
+  font-size : 1.5em;
   text-align: center;
 }

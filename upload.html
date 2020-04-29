@@ -37,14 +37,35 @@
         </ul>
         <button id="signOut" class="btn btn-link" type="submit">Sign Out</button>
     </nav>
-    <div hidden id="uploadMask">
-        <div class="mask">
-            <!-- <div class="loader"></div> -->
-            <h4 class="mask-label">Uploading</p>
-                <div class="progress">
-                    <div id="uploadProgressBar" class="progress-bar" style="width: 0px" role="progressbar"
-                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+    <div class="modal fade" id="uploadProgressModal" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="uploadProgressModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadProgressModalLabel">Uploading</h5>
+                    <div class="round">
+                        <div id="cta">
+                            <span class="arrow primera next bounceAlpha"></span>
+                            <span class="arrow segunda next bounceAlpha"></span>
+                        </div>
+                    </div>
                 </div>
+                <div class="modal-body">
+                    <span id="uploadDataDone"></span>
+                    <span id="uploadDataTotal"></span>
+                    <br>
+                    <small id="remainingTime"></small>
+                    <div id="uploadProgressBarCtr" class="progress">
+                        <span id="uploadProgressValue">0%</span>
+                        <div id="uploadProgressBar" class="progress-bar" style="width: 0px" role="progressbar"
+                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">&nbsp;</div>
+                    </div>
+                    <small id="uploadFileName"></small>
+                </div>
+                <div class="modal-footer">
+                    <button id="cancelUpload" type="button" class="btn btn-danger">cancel upload</button>
+                </div>
+            </div>
         </div>
     </div>
     <section class="row">
@@ -118,8 +139,8 @@
                 </div>
                 <div class="form-group">
                     <label for="chapterName">Chapter name</label><span class="red">*</span>
-                    <input name="chapterName" type="text" class="form-control" id="chapterName" placeholder="E.g. Daffodils"
-                        required>
+                    <input name="chapterName" type="text" class="form-control" id="chapterName"
+                        placeholder="E.g. Daffodils" required>
                     <div class="invalid-feedback">
                         Please enter a chapter name.
                     </div>
@@ -128,17 +149,17 @@
                     <label for="chapterNumber">Chapter number</label><span class="red">*</span>
                     <input name="chapterNumber" type="text" class="form-control" id="chapterNumber" placeholder="E.g. 1"
                         required>
-                        <small class="form-text text-muted">
-                            Chapter number as mentioned in the book
-                        </small>
+                    <small class="form-text text-muted">
+                        Chapter number as mentioned in the book
+                    </small>
                     <div class="invalid-feedback">
                         Please enter a chapter number.
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="chapterPart">Chapter Part</label><span class="red">*</span>
-                    <input name="chapterPart" type="text" class="form-control" id="chapterPart" placeholder="E.g. Part 1 of 5"
-                        required>
+                    <input name="chapterPart" type="text" class="form-control" id="chapterPart"
+                        placeholder="E.g. Part 1 of 5" required>
                     <div class="invalid-feedback">
                         Please enter a chapter part.
                     </div>
@@ -151,7 +172,8 @@
                 <br>
                 <div class="form-group">
                     <label for="title">Title</label><span class="red">*</span>
-                    <input name="title" type="text" class="form-control" id="title" placeholder="E.g. CH 4 Part 1 Alternatives centers of Power" required>
+                    <input name="title" type="text" class="form-control" id="title"
+                        placeholder="E.g. CH 4 Part 1 Alternatives centers of Power" required>
                     <div class="invalid-feedback">
                         Please enter a video title.
                     </div>
@@ -206,6 +228,8 @@
                 </div>
                 <div hidden id="uploadError" class="alert alert-danger" role="alert">
                     Some error ocurred! Please try again.
+                </div>
+                <div hidden id="uploadWarning" class="alert alert-warning" role="alert">
                 </div>
                 <div hidden id="uploadSucc" class="alert alert-success" role="alert">
                     File uploaded successfully!

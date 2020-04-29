@@ -135,14 +135,23 @@ const updateVideoMetaData = () => {
     }
 }
 
-const sendFile = function (event) {
+let uploadXhr = false;
+let timeController;
+let uploadedBytes = 0;
+let totalBytes = 0;
+
+const sendFile = function (formData) {
     setUploadProgress(0);
-    if (signedURL && authToken) {
+    if (signedURL && authToken && formData.get('file') && formData.get('file').name) {
+        $('#uploadFileName').html(formData.get('file').name);
         const xhr = new XMLHttpRequest();
         this.xhr = xhr;
         this.xhr.upload.addEventListener("progress", function (e) {
             if (e.lengthComputable) {
                 const percentage = Math.round((e.loaded * 100) / e.total);
+                totalBytes = e.total;
+                uploadedBytes = e.loaded;
+                setUploadData(e.loaded, e.total);
                 setUploadProgress(percentage);
             }
         }, false);
@@ -151,19 +160,30 @@ const sendFile = function (event) {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                 updateVideoMetaData();
+                resetUploadState();
             }
             else if (xhr.readyState !== XMLHttpRequest.HEADERS_RECEIVED) {
                 setError('PUT: Server response error. Please check console/network logs.')
             }
         };
-        xhr.send(event.target.result);
+        xhr.send(formData);
+        uploadXhr = xhr;
+        let timeStarted = new Date();
+        timeController = setInterval(function () {
+            let timeElapsed = (new Date()) - timeStarted; // Assuming that timeStarted is a Date Object
+            let uploadSpeed = uploadedBytes / (timeElapsed / 1000); // Upload speed in second
+
+            // `callback` is the function that shows the time to user.
+            // The only argument is the number of remaining seconds. 
+            setEstimatedTimeRemaining((totalBytes - uploadedBytes) / uploadSpeed);
+        }, 1000)
     } else {
         !signedURL && setError('Server Error!');
         !authToken && setError('Authorization Failed!');
     }
 }
-const reader = new FileReader()
-reader.onload = sendFile
+
+
 const handleSubmit = event => {
     event.preventDefault();
     const form = $('#ttbVideoUploadForm')[0];
@@ -198,7 +218,9 @@ const handleSubmit = event => {
             try {
                 signedURL = data.signedURL;
                 fileNameUTC = data.fileName;
-                reader.readAsArrayBuffer(selectedFile);
+                var formData = new FormData()
+                formData.append('file', selectedFile);
+                sendFile(formData);
             } catch (e) {
                 setError('GET: Server response error, please check console/network logs.', e)
             }
@@ -207,6 +229,21 @@ const handleSubmit = event => {
             setError('GET: Could not get signed URL, please check console/network logs.')
         }
     });
+}
+
+const cancelUploadHandler = event => {
+    if (uploadXhr) {
+        uploadXhr.abort();
+        setWarning('Upload canceled!')
+    }
+    hideMask();
+}
+
+const openModal = event => {
+    $('#uploadProgressModal').modal({
+        backdrop: 'static',
+        keyboard: false,
+    })
 }
 
 window.onload = event => {
@@ -231,11 +268,19 @@ window.onload = event => {
     } catch (e) {
         setError('Some error ocurred! Please try again.', e);
     }
+    $('#cancelUpload').click(cancelUploadHandler);
+    $('#modalTrigger').click(openModal);
 }
 function resetState() {
     hideMask();
     hideUploadError();
     hideSuccessMsg();
+}
+
+const resetUploadState = () => {
+    clearInterval(timeController);
+    setEstimatedTimeRemaining(0);
+    resetUploadData();
 }
 
 function hideSuccessMsg() {
@@ -247,7 +292,11 @@ function hideUploadError() {
 }
 
 function showMask() {
-    $('#uploadMask').removeAttr('hidden');
+    // $('#uploadMask').removeAttr('hidden');
+    $('#uploadProgressModal').modal({
+        backdrop: 'static',
+        keyboard: false,
+    })
 }
 
 function showSuccessMsg() {
@@ -260,11 +309,56 @@ function setError(msg, e) {
     hideMask();
     e && console.error(e)
 }
+
+function setWarning(msg, e) {
+    $('#uploadWarning').html(msg);
+    $('#uploadWarning').removeAttr('hidden');
+    hideMask();
+    e && console.error(e)
+}
+
 function hideMask() {
-    $('#uploadMask').attr('hidden', true)
+    // $('#uploadMask').attr('hidden', true)
+    setUploadProgress(0);
+    $('#uploadProgressModal').modal('hide')
 }
 function setUploadProgress(progressValue) {
     $('#uploadProgressBar').attr('aria-valuenow', progressValue)
-    $('#uploadProgressBar').html(progressValue + '%')
-    $('#uploadProgressBar').css('width', progressValue)
+    $('#uploadProgressValue').html(progressValue + '%')
+    $('#uploadProgressBar').css('width', progressValue + '%')
 }
+
+function setUploadData(done, total) {
+    $('#uploadDataDone').html(formatBytes(done) + ' of ')
+    $('#uploadDataTotal').html(formatBytes(total))
+}
+
+function resetUploadData() {
+    $('#uploadDataDone').html('')
+    $('#uploadDataTotal').html('')
+    $('#uploadFileName').html('');
+
+}
+
+function setEstimatedTimeRemaining(time) {
+    $('#remainingTime').html(formatTime(time))
+
+}
+function formatTime(seconds) {
+    let mill = seconds * 1000;
+    let hoursRemaining = (Math.floor(mill / 1000 / 60 / 60)) % 24;
+    let minutesRemaining = (Math.floor(mill / 1000 / 60)) % 60;
+    let secondsRemaining = (Math.floor(mill / 1000)) % 60;
+    let timeAr = []
+    if (hoursRemaining > 0) {
+        timeAr.push(`${hoursRemaining} hours`);
+    }
+    if (minutesRemaining > 0) {
+        timeAr.push(`${minutesRemaining} minutes`);
+    }
+    if (secondsRemaining > 0) {
+        timeAr.push(`${secondsRemaining} seconds`);
+    }
+    return timeAr.length ? timeAr.join(', ') + ' remaining' : '';
+}
+function formatBytes(a, b = 2) { if (0 === a) return "0 Bytes"; const c = 0 > b ? 0 : b, d = Math.floor(Math.log(a) / Math.log(1024)); return parseFloat((a / Math.pow(1024, d)).toFixed(c)) + " " + ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"][d] }
