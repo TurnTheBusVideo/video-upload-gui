@@ -155,7 +155,7 @@ const sendFile = function (formData) {
                 setUploadProgress(percentage);
             }
         }, false);
-        xhr.open('PUT', signedURL);
+        xhr.open('POST', signedURL);
         xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
