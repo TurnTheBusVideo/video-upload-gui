@@ -155,7 +155,18 @@ const sendFile = function (formData) {
                 setUploadProgress(percentage);
             }
         }, false);
-        xhr.open('POST', signedURL);
+        console.log('signedURL');
+        console.log(signedURL);
+        
+
+        formData.append('bucket', signedURL.fields['bucket']);
+        formData.append('X-Amz-Algorithm', signedURL.fields['X-Amz-Algorithm']);
+        formData.append('X-Amz-Date', signedURL.fields['X-Amz-Date']);
+        formData.append('Policy', signedURL.fields['Policy']);
+        formData.append('X-Amz-Signature', signedURL.fields['X-Amz-Signature']);
+
+
+        xhr.open('POST', signedURL.url);
         xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
