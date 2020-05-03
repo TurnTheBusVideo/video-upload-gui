@@ -161,12 +161,12 @@ const sendFile = function (formData) {
         xhr.open('POST', signedURL.url);
         xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');
         xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            if (xhr.readyState === XMLHttpRequest.DONE && (xhr.status === 200 || xhr.status === 204)) {
                 updateVideoMetaData();
                 resetUploadState();
             }
             else if (xhr.readyState !== XMLHttpRequest.HEADERS_RECEIVED) {
-                setError('PUT: Server response error. Please check console/network logs.')
+                setError('POST: Server response error. Please check console/network logs.')
             }
         };
         xhr.send(formData);
