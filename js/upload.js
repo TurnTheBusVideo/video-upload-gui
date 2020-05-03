@@ -223,7 +223,7 @@ const handleSubmit = event => {
                 fileNameUTC = data.fileName;
                 var formData = new FormData();
                 Object.keys(signedURL.fields).forEach(key => {
-                  formData.append(key, presignedPostData.fields[key]);
+                  formData.append(key, signedURL.fields[key]);
                 });
                 formData.append('file', selectedFile);
                 sendFile(formData);
