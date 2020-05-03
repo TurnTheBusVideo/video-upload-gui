@@ -231,6 +231,7 @@ const handleSubmit = event => {
                 fileNameUTC = data.fileName;
                 var formData = new FormData()
                 formData.append('file', selectedFile);
+                formData.append('key', fileNameUTC);
                 sendFile(formData);
             } catch (e) {
                 setError('GET: Server response error, please check console/network logs.', e)
