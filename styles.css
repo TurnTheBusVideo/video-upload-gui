@@ -1,3 +1,11 @@
+.jumbotron {
+  background             : url(assets/jumbotron.jpg) no-repeat center center; 
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  -o-background-size: 100%;
+  background-size: 100%;
+}
+
 #uploadProgressValue {
   position: absolute;
   z-index : 1;

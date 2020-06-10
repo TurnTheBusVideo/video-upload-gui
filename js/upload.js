@@ -24,6 +24,8 @@ const getFormValues = () => {
         formFieldsObj[formField.name] = formField.value
     })
     return {
+        tutorName: formFieldsObj.tutorName || "NULL",
+        tutorProfile: formFieldsObj.tutorProfile || "NULL",
         classN: formFieldsObj.class || "NULL",
         stream: formFieldsObj.stream || "NULL",
         board: formFieldsObj.board || "NULL",
@@ -203,6 +205,7 @@ const handleSubmit = event => {
         setError('Please select a file to upload!');
         return;
     }
+    const formDataValues = getFormValues();
     $.ajax({
         type: "GET",
         url: _config.api.invokeUrl + "/getsignedurl",
@@ -215,7 +218,7 @@ const handleSubmit = event => {
         data: {
             bucket: 'test-turnthebus-upload',
             key: selectedFile.name,
-            ...getFormValues()
+            ...formDataValues
         },
         success: function (data, textStatus, jqXHR) {
             try {

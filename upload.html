@@ -42,7 +42,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="uploadProgressModalLabel">Uploading</h5>
+                    <h2 class="modal-title" id="uploadProgressModalLabel">Uploading</h2>
                     <div class="round">
                         <div id="cta">
                             <span class="arrow primera next bounceAlpha"></span>
@@ -68,6 +68,20 @@
             </div>
         </div>
     </div>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col col-md"></div>
+            <div class="col-12 col-md-4 col-">
+                <h1 class="display-4">स्वागत हे</h1>
+                <p class="lead">Namaste, friends. Thank you for teaching online with Turn the Bus! Please use this form to submit the details of your video.</p>
+                <p class="lead">नमस्ते दोस्तों। टर्न द बस के साथ ऑनलाइन पढ़ाने के लिए धन्यवाद! कृपया इस फॉर्म का उपयोग अपने वीडियो का विवरण प्रस्तुत करने के लिए करें।</p>
+                <p class="lead">
+                    <a class="btn btn-primary btn-lg" target="_blank" href="https://www.turnthebus.org/">Learn more on turnthebus.org</a>
+                </p>
+            </div>
+            <div class="col col-md"></div>
+        </div>
+    </div>
     <section class="row">
         <div class="col col-md"></div>
         <div class="col-12 col-md-6 col-">
@@ -76,9 +90,33 @@
                 Loading form...
             </div>
             <form id="ttbVideoUploadForm" hidden>
-                <h3>Video Upload</h3>
+                <h1>Video Upload</h1>
                 <br>
-                <h4>Class Information</h4>
+                <p>Fields marked with a red asterisk (<span class="red">*</span>) are required fields. Please provide a valid value for these.<p>
+                <p>तारांकन चिह्न (<span class="red">*</span>) के साथ चिह्नित प्रश्न अनिवार्य हैं।</p>
+                <h2>Tutor Information</h2>
+                <div class="form-group">
+                    <label for="tutorName">Tutor Name</label><span class="red">*</span>
+                    <input name="tutorName" type="text" class="form-control" id="tutorName" required placeholder="E.g. Shobha Singh">
+                        <small class="form-text text-muted">
+                        Your name or a teaching alias or a screen name
+                    </small>
+                    <div class="invalid-feedback">
+                        Please enter a tutor name.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tutorProfile">Tutor Profile</label>
+                    <textarea class="form-control" id="tutorProfile" rows="3" name="tutorProfile"
+                        placeholder="E.g. Shobha Singh has an MA in History and a BEd from Lucknow University. She loves sharing her passion for History with young people through storytelling and teaching."
+                    ></textarea>
+                    <small id="tutorProfileHelpBlock" class="form-text text-muted">
+                       About yourself
+                    </small>
+                </div>
+                <br>
+                <br><br>
+                <h2>Class Information</h2>
                 <br>
                 <div class="form-group">
                     <label for="class">Class</label><span class="red">*</span>
@@ -112,7 +150,8 @@
                         Please select a Board.
                     </div>
                 </div>
-                <h4>Book Information</h4>
+                <br><br>
+                <h2>Book Information</h2>
                 <br>
                 <div class="form-group">
                     <label for="bookName">Book Name</label><span class="red">*</span>
@@ -168,7 +207,8 @@
                     <label for="section">Section</label>
                     <input name="section" type="text" class="form-control" id="section" placeholder="E.g. Prose/Poetry">
                 </div>
-                <h4>Video Details</h4>
+                <br><br>
+                <h2>Video Details</h2>
                 <br>
                 <div class="form-group">
                     <label for="title">Title</label><span class="red">*</span>
@@ -221,6 +261,9 @@
                     <div class="custom-file">
                         <input required type="file" class="custom-file-input" id="file">
                         <label id="fileName" class="custom-file-label">Choose file</label>
+                        <small class="form-text text-muted">
+                            Please upload videos in .mp4 format. You may use a free tool like <a href="http://www.pcfreetime.com/" target="_blank">Format Factory</a> to convert video files to MP4 format.
+                        </small>
                         <div class="invalid-feedback">
                             Please upload a file.
                         </div>

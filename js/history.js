@@ -118,11 +118,11 @@ const createHeader = (videoTitle, uploadID) => {
 const createVideoHistoryItem = (videoDescription, youtubeID, bookName, section, videoTitle, uploadID) => {
     const youtube = mediaLink('https://www.youtube.com/watch?v=', youtubeID, 'youtube.com/watch?v=', 'YouTube');
     const edX = mediaLink('https://www.youtube.com/watch?v=', youtubeID, 'youtube.com/watch?v=', 'EdX');
-    const mediaCol1 = el('div', {
+    const mediaCol1 = el('small', {
         class: 'col-sm-6',
         style: 'float: left;'
     }, [youtube])
-    const mediaCol2 = el('div', {
+    const mediaCol2 = el('small', {
         class: 'col-sm-6',
         style: 'float: left;'
     }, [edX]);
@@ -157,12 +157,13 @@ function mediaLink(linkBase, mediaId, linkLabelPrefix, mediaTitle) {
         class: 'video-status badge badge-' + (mediaId ? 'success' : 'warning')
     }, mediaId ? 'live' : 'pending');
     const title = el('b', {}, mediaTitle);
-    const wrapper = el('p', {}, [
-        title, status, br, link, copyButton
-    ]);
+    let wrappedEls = [
+        title, status, br
+    ];
+    mediaId && wrappedEls.push(link);
+    const wrapper = el('p', {}, wrappedEls);
     const container = el('div', {
-        class: 'col-sm-6',
-        style: 'float: left;'
+        
     }, [wrapper]);
     return container;
 }
