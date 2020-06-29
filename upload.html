@@ -154,19 +154,27 @@
                 <h2>Book Information</h2>
                 <br>
                 <div class="form-group">
+                    <label for="subject">Subject</label><span class="red">*</span>
+                    <select required class="form-control" id="subject" name="subject">
+                        <option>Choose Subject</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a subject.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="bookLanguage">Book Language</label><span class="red">*</span>
+                    <select required class="form-control" id="bookLanguage" name="bookLanguage">
+                        <option>Choose Book Language</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a book langauge.
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="bookName">Book Name</label><span class="red">*</span>
                     <select required class="form-control" id="bookName" name="bookName">
-                        <option></option>
-                        <option>English Compulsory</option>
-                        <option>English-Rainbow</option>
-                        <option>Geography</option>
-                        <option>Hindi Compulsory</option>
-                        <option>Hindi-Digant</option>
-                        <option>Political Science</option>
-                        <option>Pol Hind-World</option>
-                        <option>Poltitical Science 2</option>
-                        <option>Psychology</option>
-                        <option>Sociology</option>
+                        <option>Choose Book Name</option>
                     </select>
                     <div class="invalid-feedback">
                         Please select a book name.
@@ -246,7 +254,7 @@
                     </small>
                 </div>
                 <div class="form-group">
-                    <label for="videoLanguage">Language</label><span class="red">*</span>
+                    <label for="videoLanguage">Video Language</label><span class="red">*</span>
                     <select required class="form-control" id="videoLanguage" name="videoLanguage">
                         <option></option>
                         <option>Hindi</option>
@@ -279,6 +287,7 @@
                 </div>
                 <button id="submitUploadForm" class="btn btn-primary">Upload</button>
             </form>
+                <button hidden id="debugSubmit" class="btn btn-primary">Debug</button>
         </div>
         <div class="col col-md"></div>
         </div>

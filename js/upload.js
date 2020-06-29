@@ -29,6 +29,8 @@ const getFormValues = () => {
         classN: formFieldsObj.class || "NULL",
         stream: formFieldsObj.stream || "NULL",
         board: formFieldsObj.board || "NULL",
+        subject: formFieldsObj.subject || "NULL",
+        bookLanguage: formFieldsObj.bookLanguage || "NULL",
         bookName: formFieldsObj.bookName || "NULL",
         bookPartName: formFieldsObj.bookPartName || "NULL",
         chapterName: formFieldsObj.chapterName || "NULL",
@@ -74,11 +76,151 @@ const setFormOptions = (items) => {
     }
 };
 
+let bookOptions;
+
+const handleBoardChange = (event) => {
+    let selectedBoard = event.target.value;
+    let boardSubjects = bookOptions.get(selectedBoard);
+
+    let subjectField = $('#subject')[0];
+    if (subjectField && boardSubjects) {
+        let subjectFieldValue = [];
+        boardSubjects.forEach((value, key) => {
+            subjectFieldValue.push(key);
+        });
+        updateFormOptions(subjectField, subjectFieldValue.join(','));
+        subjectField.dispatchEvent(new Event('change'));
+    }
+}
+
+const handleSubjectChange = (event) => {
+    let boardSubjects = bookOptions.get($('#board')[0].value);
+
+    let selectedSubject = event.target.value;
+    let subjectsBookLanguages = boardSubjects.get(selectedSubject);
+
+    let bookLanguageField = $('#bookLanguage')[0];
+    if (bookLanguageField && subjectsBookLanguages) {
+        let languageValues = [];
+        subjectsBookLanguages.forEach((value, key) => {
+            languageValues.push(key);
+        });
+        updateFormOptions(bookLanguageField, languageValues.join(','));
+        bookLanguageField.dispatchEvent(new Event('change'));
+    }
+}
+
+const handleBookLanguageChange = (event) => {
+    let boardSubjects = bookOptions.get($('#board')[0].value);
+    let subjectLanguages = boardSubjects.get($('#subject')[0].value);
+
+    let selectedLanguage = event.target.value;
+    let bookNames = subjectLanguages.get(selectedLanguage);
+
+    let bookNameField = $('#bookName')[0];
+    if (bookNameField && bookNames) {
+        let bookNameValues = [];
+        bookNames.forEach((value, key) => {
+            bookNameValues.push(key);
+        });
+        updateFormOptions(bookNameField, bookNameValues.join(','));
+    }
+}
+
+const treeLevels = ['BOARD', 'SUBJECT', 'LANGUAGE', 'BOOK_NAME'];
+
+
+const populateTree = (root, item, treeLevel) => {
+    let itemValue = item[treeLevels[treeLevel]];
+    if (treeLevel === treeLevels.length - 1) {
+        root.set(itemValue);
+        return;
+    }
+    let levelMap = root.get(itemValue);
+    if (levelMap != undefined) {
+        populateTree(levelMap, item, ++treeLevel);
+    } else {
+        let newTree = new Map();
+        populateTree(newTree, item, ++treeLevel);
+        root.set(itemValue, newTree);
+    }
+}
+
+const populateBookOptions = (items) => {
+    if (items && items.length && items.length > 0) {
+        items.forEach(item => {
+            populateTree(bookOptions, item, 0);
+        });
+        $('#board')[0].dispatchEvent(new Event('change'));
+    }
+}
+
+
+function populateSubjectMap(item, boardMap) {
+    let itemSubject = item['SUBJECT'];
+    let subjectMap = boardMap.get(itemSubject);
+    if (subjectMap !== undefined) {
+        populateLanguageMap(item, subjectMap);
+    }
+    else {
+        let newSubjectMap = new Map();
+        populateLanguageMap(item, newSubjectMap);
+        boardMap.set(itemSubject, newSubjectMap);
+    }
+}
+
+function populateLanguageMap(item, subjectMap) {
+    let itemLanguage = item['LANGUAGE'];
+    let languageMap = subjectMap.get(itemLanguage);
+    if (languageMap !== undefined) {
+        populateBookMap(item, languageMap);
+    }
+    else {
+        let newLanguageMap = new Map();
+        populateBookMap(item, newLanguageMap);
+        subjectMap.set(itemLanguage, newLanguageMap);
+    }
+}
+
+function populateBookMap(item, languageMap) {
+    let itemBookName = item['BOOK_NAME'];
+    languageMap.set(itemBookName);
+}
+
 const showForm = () => {
     const form = $('#ttbVideoUploadForm')[0];
     form.removeAttribute('hidden');
     const formLoader = $('#formLoader')[0];
     formLoader.setAttribute('hidden', true);
+}
+
+const getBookData = (formData) => {
+    if (authToken) {
+        $.ajax({
+            type: "GET",
+            url: _config.api.invokeUrl + "/scantable",
+            crossdomain: true,
+            contentType: 'application/json',
+            dataType: 'json',
+            headers: {
+                Authorization: authToken
+            },
+            data: {
+                tableName: 'booksMetaData'
+            },
+            success: function (bookData, textStatus, jqXHR) {
+                setFormOptions(formData.result.Items);
+                bookOptions = new Map();
+                populateBookOptions(bookData.result.Items);
+                showForm();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                setError('GET: Cannot get form data. Please check console/network logs.');
+            }
+        });
+    } else {
+        setError('You are not authorized to perform this action.');
+    }
 }
 
 const getFormData = () => {
@@ -95,16 +237,15 @@ const getFormData = () => {
             data: {
                 tableName: 'videoMetadata'
             },
-            success: function (data, textStatus, jqXHR) {
-                setFormOptions(data.result.Items);
-                showForm();
+            success: function (formData, textStatus, jqXHR) {
+                getBookData(formData);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                setError('POST: Could not update video data. Please check console/network logs.')
+                setError('GET: Cannot get form data. Please check console/network logs.');
             }
         });
     } else {
-        setError('GET: Cannot get form data. Please check console/network logs.')
+        setError('You are not authorized to perform this action.');
     }
 }
 
@@ -159,7 +300,7 @@ const sendFile = function (formData) {
         }, false);
         console.log('signedURL');
         console.log(signedURL);
-      
+
         xhr.open('POST', signedURL.url);
         xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');
         xhr.onreadystatechange = function () {
@@ -226,7 +367,7 @@ const handleSubmit = event => {
                 fileNameUTC = data.fileName;
                 var formData = new FormData();
                 Object.keys(signedURL.fields).forEach(key => {
-                  formData.append(key, signedURL.fields[key]);
+                    formData.append(key, signedURL.fields[key]);
                 });
                 formData.append('file', selectedFile);
                 sendFile(formData);
@@ -266,6 +407,9 @@ window.onload = event => {
             }
         }
     })
+    $('#board').change(handleBoardChange);
+    $('#subject').change(handleSubjectChange);
+    $('#bookLanguage').change(handleBookLanguageChange);
     $('#signOut').click(function () {
         WildRydes.signOut();
         alert("You have been signed out.");
@@ -273,13 +417,17 @@ window.onload = event => {
     });
     getFormData();
     try {
-        $('#submitUploadForm').click(handleSubmit)
+        $('#submitUploadForm').click(handleSubmit);
+        $('#debugSubmit').click(() => {
+            console.debug(getFormValues());
+        });
     } catch (e) {
         setError('Some error ocurred! Please try again.', e);
     }
     $('#cancelUpload').click(cancelUploadHandler);
     $('#modalTrigger').click(openModal);
 }
+
 function resetState() {
     hideMask();
     hideUploadError();
