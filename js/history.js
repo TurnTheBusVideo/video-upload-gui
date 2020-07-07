@@ -55,6 +55,11 @@ const loadHistory = () => {
 
 window.onload = event => {
     loadHistory();
+    $('#signOut').click(function () {
+        WildRydes.signOut();
+        alert("You have been signed out.");
+        window.location = "index.html";
+    });
 }
 
 const setVideoHistory = (items) => {
