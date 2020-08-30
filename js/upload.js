@@ -268,6 +268,7 @@ const updateVideoMetaData = () => {
             success: function (data, textStatus, jqXHR) {
                 hideMask();
                 showSuccessMsg();
+                $('#ttbVideoUploadForm')[0].reset();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 setError('POST: Could not update video data. Please check console/network logs.')
@@ -381,6 +382,13 @@ const handleSubmit = event => {
     });
 }
 
+const handleReset = event => {
+    const shouldReset = confirm('Do you want to clear this form?');
+    if(!shouldReset){
+        event.preventDefault();
+    }
+}
+
 const cancelUploadHandler = event => {
     if (uploadXhr) {
         uploadXhr.abort();
@@ -418,6 +426,7 @@ window.onload = event => {
     getFormData();
     try {
         $('#submitUploadForm').click(handleSubmit);
+        $('#resetUploadForm').click(handleReset);
         $('#debugSubmit').click(() => {
             console.debug(getFormValues());
         });
