@@ -384,7 +384,7 @@ const handleSubmit = event => {
 
 const handleReset = event => {
     const shouldReset = confirm('Do you want to clear this form?');
-    if(!shouldReset){
+    if (!shouldReset) {
         event.preventDefault();
     }
 }
@@ -528,3 +528,18 @@ function formatTime(seconds) {
     return timeAr.length ? timeAr.join(', ') + ' remaining' : '';
 }
 function formatBytes(a, b = 2) { if (0 === a) return "0 Bytes"; const c = 0 > b ? 0 : b, d = Math.floor(Math.log(a) / Math.log(1024)); return parseFloat((a / Math.pow(1024, d)).toFixed(c)) + " " + ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"][d] }
+
+
+function updateTitlePreview () {
+    var chapterPartVal = document.getElementById("chapterPart").value;
+    var chapterNumberVal = document.getElementById("chapterNumber").value;
+    var titleVal = document.getElementById("title").value;
+    var chapterNameVal = document.getElementById("chapterName").value;
+    var bookNameVal = document.getElementById("bookName").value;
+    var classVal = document.getElementById("class").value;
+
+    var titlePreviewField = document.getElementById("titlePreview");
+
+    titlePreviewField.value = chapterPartVal + ' CH ' + chapterNumberVal + ' ' + 
+        titleVal + ' ' + chapterNameVal + ' ' + bookNameVal + ' ' + classVal;
+}

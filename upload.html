@@ -120,7 +120,8 @@
                 <br>
                 <div class="form-group">
                     <label for="class">Class</label><span class="red">*</span>
-                    <select required class="form-control" id="class" name="class">
+                    <select required class="form-control" id="class" name="class"
+                        onchange="updateTitlePreview()">
                         <option></option>
                         <option value="Class X">Class X</option>
                         <option value="Class XII">Class XII</option>
@@ -173,7 +174,8 @@
                 </div>
                 <div class="form-group">
                     <label for="bookName">Book Name</label><span class="red">*</span>
-                    <select required class="form-control" id="bookName" name="bookName">
+                    <select required class="form-control" id="bookName" name="bookName"
+                        onchange="updateTitlePreview()">
                         <option>Choose Book Name</option>
                     </select>
                     <div class="invalid-feedback">
@@ -187,15 +189,20 @@
                 <div class="form-group">
                     <label for="chapterName">Chapter name</label><span class="red">*</span>
                     <input name="chapterName" type="text" class="form-control" id="chapterName"
-                        placeholder="E.g. Daffodils" required>
+                        placeholder="E.g. Daffodils" required
+                        onkeyup="updateTitlePreview()"
+                        onchange="updateTitlePreview()">
                     <div class="invalid-feedback">
                         Please enter a chapter name.
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="chapterNumber">Chapter number</label><span class="red">*</span>
-                    <input name="chapterNumber" type="text" class="form-control" id="chapterNumber" placeholder="E.g. 1"
-                        required>
+                    <input name="chapterNumber"
+                        type="text" class="form-control" id="chapterNumber" placeholder="E.g. 1"
+                        required
+                        onkeyup="updateTitlePreview()"
+                        onchange="updateTitlePreview()">
                     <small class="form-text text-muted">
                         Chapter number as mentioned in the book
                     </small>
@@ -206,7 +213,9 @@
                 <div class="form-group">
                     <label for="chapterPart">Chapter Part</label><span class="red">*</span>
                     <input name="chapterPart" type="text" class="form-control" id="chapterPart"
-                        placeholder="E.g. Part 1 of 5" required>
+                        placeholder="E.g. Part 1 of 5" required
+                        onkeyup="updateTitlePreview()"
+                        onchange="updateTitlePreview()">
                     <div class="invalid-feedback">
                         Please enter a chapter part.
                     </div>
@@ -221,12 +230,23 @@
                 <div class="form-group">
                     <label for="title">Title</label><span class="red">*</span>
                     <input name="title" type="text" class="form-control" id="title"
-                        placeholder="E.g. Alternatives centers of Power" required>
+                        placeholder="E.g. Alternatives centers of Power" required
+                        onkeyup="updateTitlePreview()"
+                        onchange="updateTitlePreview()">
                     <div class="invalid-feedback">
                         Please enter a video title.
                     </div>
                     <small id="titleHelpBlock" class="form-text text-muted">
-                        This will appear as the video title on YouTube and EdX. A catchy title can help you hook
+                        This will appear as part of the video title on YouTube and EdX.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="titlePreview">Final Title Preview</label>
+                    <input name="titlePreview" id="titlePreview" type="text" class="form-control" readOnly>
+                    <small id="titleHelpBlock" class="form-text text-muted">
+                        This will be the final video title on YouTube and EdX.
+                        It is a combination of form fields on this page.
+                        A catchy title can help you hook
                         viewers. When you create video
                         titles, it’s a good idea to include keywords your audience is likely to use when looking for
                         videos like yours. <a target="_blank"
