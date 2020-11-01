@@ -42,15 +42,20 @@ const loadHistory = () => {
                 tableName: 'UploadVideo'
             },
             success: function (data, textStatus, jqXHR) {
-                setVideoHistory(data.result.Items);
-                showHistory();
+                if(Array.isArray(data.result.Items)){
+                    setVideoHistory(data.result.Items);
+                    showHistory();
+                } else {
+                    showHistoryError();
+                    setError('GET: Empty history data. Please check console/network logs.')
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                setError('POST: Could not update video data. Please check console/network logs.')
+                setError('GET: Cannot get history data. Please check console/network logs.')
             }
         });
     } else {
-        setError('GET: Cannot get form data. Please check console/network logs.')
+        setError('GET: Cannot get history data. Please check console/network logs.')
     }
 }
 
@@ -63,14 +68,54 @@ window.onload = event => {
     });
 }
 
+
+const youtubeTitle = (item) => {
+    const {
+        chapterPart,
+        chapterNumber,
+        videoTitle,
+        chapterName,
+        bookName,
+        classN
+    } = item;
+
+    return chapterPart + ' CH ' + chapterNumber + ' ' + 
+    videoTitle + ' ' + chapterName + ' ' + bookName + ' ' + classN;
+}
+
 const setVideoHistory = (items) => {
     const list = $('#videoHistoryList')[0];
     list.innerHTML = '';
+
+    const dateCompare = (item1, item2) => {
+        const date1 = item1.uploadedOn;
+        const date2 = item2.uploadedOn;
+        if (date1 > date2) {
+            return -1;
+          }
+        if (date1 < date2) {
+        return 1;
+        }
+        return 0;
+    };
+
     items.forEach(item => {
+        item.uploadedOn = getTimeStamp(item.uploadID);
+        item.youtubeTitle = youtubeTitle(item);
+    })
+
+    items.sort(dateCompare).forEach(item => {
         list.appendChild(
             createVideoHistoryItem(item)
         );
     })
+}
+
+const showHistoryError = () => {
+    const historyError = $('#videoHistoryError')[0];
+    historyError.removeAttribute('hidden');
+    const historyLoader = $('#historyLoader')[0];
+    historyLoader.setAttribute('hidden', true);
 }
 
 const showHistory = () => {
@@ -105,7 +150,7 @@ const getTimeStamp = (uploadID) => {
                 if (UTCStr) {
                     var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
                     d.setUTCMilliseconds(UTCStr);
-                    return d.toString();
+                    return d;
                 }
             }
         }
@@ -113,13 +158,13 @@ const getTimeStamp = (uploadID) => {
     return 'Unavailable';
 };
 
-const createHeader = (videoTitle, uploadID) => {
+const createHeader = (videoTitle, uploadedOn) => {
     const h5 = el('h5', {
         class: 'col-sm-12'
-    }, [el('b', {}, 'Title:'), document.createTextNode(videoTitle)]);
+    }, [el('b', {}, 'Title: '), document.createTextNode(videoTitle)]);
     const small = el('h6', {
         class: 'text-muted col-sm-12'
-    }, 'Uploaded on: ' + getTimeStamp(uploadID))
+    }, 'Uploaded on: ' + uploadedOn.toString())
     const div = el('div', {
         class: 'row'
     }, [h5, small])
@@ -129,9 +174,10 @@ const createHeader = (videoTitle, uploadID) => {
 const getMediaItems = (item) => {
     const {
         youtubeID,
+        youtubeTitle,
         // s3URL
     } = item;
-    const youtubeLink = youtubeSection('https://www.youtube.com/watch?v=', youtubeID, 'youtube.com/watch?v=', 'YouTube');
+    const youtubeLink = youtubeSection(youtubeID, youtubeTitle);
     // const s3URLLink = s3Section(s3URL, 'Video File', 'Download ⏬');
     const youtubeDIV = el('div', {
         class: 'col-sm-12',
@@ -150,15 +196,22 @@ const createVideoHistoryItem = (item) => {
         bookName,
         section,
         videoTitle,
-        uploadID,
+        uploadedOn,
         tutorName,
-        fileName
+        fileName,
+        chapterPart,
+        chapterNumber,
+        chapterName,
+        classN
     } = item;
 
-    const header = createHeader(videoTitle, uploadID);
+    const header = createHeader(videoTitle, uploadedOn);
 
     const metaData = createMetaData({
         'Book Name': bookName,
+        'Chapter Name': chapterName,
+        'Chapter Number': chapterNumber,
+        'Chapter Part': chapterPart,
         'Section': section,
         'Video Description': videoDescription,
         'Tutor': tutorName,
@@ -182,22 +235,22 @@ const createVideoHistoryItem = (item) => {
     ]);
 }
 
-function youtubeSection(linkBase, mediaId, linkLabelPrefix, mediaTitle) {
+function youtubeSection(mediaId, youtubeTitle) {
     const link = el('a', {
-        href: linkBase + mediaId,
+        href: 'https://www.youtube.com/watch?v=' + mediaId,
         target: '_blank'
-    }, linkLabelPrefix + mediaId);
+    }, 'youtube.com/watch?v=' + mediaId);
 
     const status = el('span', {
         class: 'video-status badge badge-' + (mediaId ? 'success' : 'warning')
     }, mediaId ? 'live' : 'pending');
 
-    const title = el('b', {}, mediaTitle);
+    const title = el('b', {}, 'YouTube: ');
 
     const br = el('br');
 
     let wrappedEls = [
-        title, status, br
+        title, document.createTextNode(youtubeTitle) ,status, br
     ];
     mediaId && wrappedEls.push(link);
     const wrapper = el('p', {}, wrappedEls);
