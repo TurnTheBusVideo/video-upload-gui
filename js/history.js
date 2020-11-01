@@ -13,6 +13,7 @@ WildRydes.authToken.then(function setAuthToken(token) {
     window.location.href = 'index.html';
 });
 
+
 const el = (type, attributes = {}, contents = false) => {
     const main = document.createElement(type);
     Object.keys(attributes).forEach(key => {
@@ -66,8 +67,9 @@ const setVideoHistory = (items) => {
     const list = $('#videoHistoryList')[0];
     list.innerHTML = '';
     items.forEach(item => {
-        const { videoDescription, youtubeID, bookName, section, videoTitle, uploadID } = item;
-        list.appendChild(createVideoHistoryItem(videoDescription, youtubeID, bookName, section, videoTitle, uploadID));
+        list.appendChild(
+            createVideoHistoryItem(item)
+        );
     })
 }
 
@@ -79,12 +81,16 @@ const showHistory = () => {
 }
 
 const createMetaData = (metaData) => {
-    const chips = Object.keys(metaData).map(chip => {
-        const b = el('b', {}, chip + ': ');
-        return el('p', {}, [b, document.createTextNode(metaData[chip])]);
+    const chips = Object.keys(metaData).filter(
+        metaDataKey => metaData[metaDataKey] && metaData[metaDataKey] !== 'NULL'
+    ).map(metaDataKey => {
+        const b = el('b', {}, metaDataKey + ': ');
+        return el('div', {
+            class: 'col-sm-12'
+        }, [b, document.createTextNode(metaData[metaDataKey])]);
     })
     const div = el('div', {
-        class: 'd-lg-inline-flex video-meta'
+        class: 'row'
     }, chips);
     return div;
 }
@@ -109,66 +115,111 @@ const getTimeStamp = (uploadID) => {
 
 const createHeader = (videoTitle, uploadID) => {
     const h5 = el('h5', {
-        class: 'mb-1'
+        class: 'col-sm-12'
     }, [el('b', {}, 'Title:'), document.createTextNode(videoTitle)]);
-    const small = el('small', {
-        class: 'text-muted'
-    }, 'Uploaded on:' + getTimeStamp(uploadID))
+    const small = el('h6', {
+        class: 'text-muted col-sm-12'
+    }, 'Uploaded on: ' + getTimeStamp(uploadID))
     const div = el('div', {
-        class: 'd-flex w-100 justify-content-between'
+        class: 'row'
     }, [h5, small])
     return div;
 }
 
-const createVideoHistoryItem = (videoDescription, youtubeID, bookName, section, videoTitle, uploadID) => {
-    const youtube = mediaLink('https://www.youtube.com/watch?v=', youtubeID, 'youtube.com/watch?v=', 'YouTube');
-    const edX = mediaLink('https://www.youtube.com/watch?v=', youtubeID, 'youtube.com/watch?v=', 'EdX');
-    const mediaCol1 = el('small', {
-        class: 'col-sm-6',
+const getMediaItems = (item) => {
+    const {
+        youtubeID,
+        // s3URL
+    } = item;
+    const youtubeLink = youtubeSection('https://www.youtube.com/watch?v=', youtubeID, 'youtube.com/watch?v=', 'YouTube');
+    // const s3URLLink = s3Section(s3URL, 'Video File', 'Download ⏬');
+    const youtubeDIV = el('div', {
+        class: 'col-sm-12',
         style: 'float: left;'
-    }, [youtube])
-    const mediaCol2 = el('small', {
-        class: 'col-sm-6',
-        style: 'float: left;'
-    }, [edX]);
-    const rowMedia = el('div', {
-        class: 'row'
-    }, [mediaCol1, mediaCol2]);
-    const br = el('br');
-    const description = el('p', {
-        class: 'mb-1'
-    }, videoDescription);
-    const metaData = createMetaData({
-        'Book Name': bookName,
-        'Section': section
-    });
-    const header = createHeader(videoTitle, uploadID);
-    return el('div', {
-        class: 'video-history-item'
-    }, [header, br, metaData, description, br, rowMedia]);
+    }, [youtubeLink])
+    // const s3DIV = el('div', {
+    //     class: 'col-sm-12',
+    //     style: 'float: left;'
+    // }, [s3URLLink]);
+    return [youtubeDIV];
 }
 
-function mediaLink(linkBase, mediaId, linkLabelPrefix, mediaTitle) {
-    const copyButton = el('button', {
-        type: 'button',
-        class: 'btn btn-outline-secondary copy-url'
-    }, 'copy url');
+const createVideoHistoryItem = (item) => {
+    const {
+        videoDescription,
+        bookName,
+        section,
+        videoTitle,
+        uploadID,
+        tutorName,
+        fileName
+    } = item;
+
+    const header = createHeader(videoTitle, uploadID);
+
+    const metaData = createMetaData({
+        'Book Name': bookName,
+        'Section': section,
+        'Video Description': videoDescription,
+        'Tutor': tutorName,
+        'File Name': fileName,
+    });
+
+    const rowMedia = el('div', {
+        class: 'row'
+    }, getMediaItems(item));
+
+    const br = el('br');
+
+    return el('div', {
+        class: 'video-history-item'
+    }, [
+        header,
+        br,
+        metaData,
+        br,
+        rowMedia
+    ]);
+}
+
+function youtubeSection(linkBase, mediaId, linkLabelPrefix, mediaTitle) {
     const link = el('a', {
         href: linkBase + mediaId,
         target: '_blank'
     }, linkLabelPrefix + mediaId);
-    const br = el('br');
+
     const status = el('span', {
         class: 'video-status badge badge-' + (mediaId ? 'success' : 'warning')
     }, mediaId ? 'live' : 'pending');
+
     const title = el('b', {}, mediaTitle);
+
+    const br = el('br');
+
     let wrappedEls = [
         title, status, br
     ];
     mediaId && wrappedEls.push(link);
     const wrapper = el('p', {}, wrappedEls);
-    const container = el('div', {
-        
-    }, [wrapper]);
+    const container = el('div', {}, [wrapper]);
+    return container;
+}
+
+
+function s3Section(s3URL, linkLabelPrefix, mediaTitle) {
+    const link = el('a', {
+        href: s3URL,
+        target: '_blank'
+    }, linkLabelPrefix);
+
+    const title = el('b', {}, mediaTitle);
+
+    const br = el('br');
+    let wrappedEls = [
+        title, br
+    ];
+    s3URL && wrappedEls.push(link);
+    const wrapper = el('p', {}, wrappedEls);
+    const container = el('div', {}, [wrapper]);
     return container;
 }
