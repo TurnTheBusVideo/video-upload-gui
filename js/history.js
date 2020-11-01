@@ -83,6 +83,18 @@ const youtubeTitle = (item) => {
     videoTitle + ' ' + chapterName + ' ' + bookName + ' ' + classN;
 }
 
+const validDate = (d) => {
+    if (Object.prototype.toString.call(d) === "[object Date]") {
+        if (isNaN(d.getTime())) {
+          return false
+        } else {
+          return true
+        }
+      } else {
+        return false
+      }
+}
+
 const setVideoHistory = (items) => {
     const list = $('#videoHistoryList')[0];
     list.innerHTML = '';
@@ -90,6 +102,8 @@ const setVideoHistory = (items) => {
     const dateCompare = (item1, item2) => {
         const date1 = item1.uploadedOn;
         const date2 = item2.uploadedOn;
+        if(!validDate(date1)) return 1;
+        if(!validDate(date2)) return -1;
         if (date1 > date2) {
             return -1;
           }
